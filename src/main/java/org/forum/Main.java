@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.forum.dao.UserDAO;
 
 import java.io.IOException;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     private static Scene scene;
+    public static final String DB_URL = "jdbc:sqlite:forum.db";
 
     @Override
     public void start(Stage stage) throws IOException {

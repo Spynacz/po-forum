@@ -65,6 +65,9 @@ public class UserDAO {
     }
 
     public void remove(User user) {
+
+        // TODO what to do with user's posts and threads after user deletion
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psRemoveUser = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE name = ?")) {
             psRemoveUser.setString(1, user.getName());

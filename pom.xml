@@ -38,6 +38,13 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.26</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
                     <release>11</release>
                 </configuration>
             </plugin>
@@ -52,6 +59,15 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.forum.Main</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>debug</id>
+                        <configuration>
+                            <mainClass>org.forum.Main</mainClass>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=localhost:8000</option>
+                            </options>
                         </configuration>
                     </execution>
                 </executions>

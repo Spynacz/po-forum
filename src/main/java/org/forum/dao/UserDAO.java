@@ -1,5 +1,8 @@
 package org.forum.dao;
 
+import javafx.scene.control.FocusModel;
+import org.forum.ForumThread;
+import org.forum.Post;
 import org.forum.User;
 
 import java.sql.*;
@@ -17,7 +20,7 @@ public class UserDAO {
              Statement statement = conn.createStatement()) {
             try (ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE)) {
                 while (rs.next())
-                    allUsers.add(new User(rs.getString("username"), rs.getString("password")));
+                    allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -31,8 +34,8 @@ public class UserDAO {
              PreparedStatement psGetUser = conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE username = ?")) {
             psGetUser.setString(1, username);
             try (ResultSet rs = psGetUser.executeQuery()) {
-                if (!rs.isBeforeFirst())
-                    ret = new User(rs.getString("username"), rs.getString("password"));
+                if (rs.isBeforeFirst())
+                    ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -64,13 +67,10 @@ public class UserDAO {
         }
     }
 
-    public void remove(User user) {
-
-        // TODO what to do with user's posts and threads after user deletion
-
+    public void remove(String username) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psRemoveUser = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE name = ?")) {
-            psRemoveUser.setString(1, user.getName());
+             PreparedStatement psRemoveUser = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE username = ?")) {
+            psRemoveUser.setString(1, username);
             psRemoveUser.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -79,11 +79,47 @@ public class UserDAO {
 
     public void update(User user, String username, String password) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psUpdateUser = conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, password = ?")) {
+             PreparedStatement psUpdateUser =
+                     conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, password = ? WHERE userID = ?")) {
             psUpdateUser.setString(1, user.getName());
-            psUpdateUser.setString(1, user.getPassword());
+            psUpdateUser.setString(2, user.getPassword());
+            psUpdateUser.setInt(3, user.getId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Post> getPosts(String username) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psGetPosts =
+                     conn.prepareStatement("SELECT * FROM post WHERE userID = (SELECT userID FROM user WHERE username = ?)")) {
+            psGetPosts.setString(1, username);
+            try (ResultSet rs = psGetPosts.executeQuery()) {
+                while (rs.next())
+                    posts.add(new Post(rs.getInt("postID"), rs.getString("body"), rs.getInt("date"),
+                            rs.getInt("threadID"), rs.getInt("userID"), rs.getInt("noInThread")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return posts;
+    }
+
+    public List<ForumThread> getThreads(String username) {
+        List<ForumThread> threads = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psGetThreads =
+                     conn.prepareStatement("SELECT * FROM thread WHERE userID = (SELECT userID FROM user WHERE username = ?)")) {
+            psGetThreads.setString(1, username);
+            try (ResultSet rs = psGetThreads.executeQuery()) {
+                while (rs.next())
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getInt("date"),
+                            rs.getInt("userID")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return threads;
     }
 }

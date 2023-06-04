@@ -7,6 +7,6 @@ module org.forum {
 
     opens org.forum to javafx.fxml;
     exports org.forum;
-//    exports org.forum.controllers;
-//    opens org.forum.controllers to javafx.fxml;
+    exports org.forum.controllers;
+    opens org.forum.controllers to javafx.fxml;
 }

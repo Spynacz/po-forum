@@ -20,7 +20,8 @@ public class ThreadDAO {
             psGetThreads.setInt(1, id);
             try (ResultSet rs = psGetThreads.executeQuery()) {
                 if (!rs.isBeforeFirst())
-                    thread = new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"));
+                    thread = new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -35,7 +36,8 @@ public class ThreadDAO {
             psGetThreads.setString(1, title);
             try (ResultSet rs = psGetThreads.executeQuery()) {
                 while (rs.next())
-                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date")));
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -51,7 +53,8 @@ public class ThreadDAO {
             psGetThreads.setLong(1, timestamp);
             try (ResultSet rs = psGetThreads.executeQuery()) {
                 while (rs.next())
-                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date")));
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -67,7 +70,8 @@ public class ThreadDAO {
             psGetThreads.setString(1, user.getName());
             try (ResultSet rs = psGetThreads.executeQuery()) {
                 while (rs.next())
-                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date")));
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -123,8 +127,9 @@ public class ThreadDAO {
     public List<String> getUsers(ForumThread thread) {
         List<String> users = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetUsers = conn.prepareStatement("SELECT * FROM post WHERE threadID = ?")) {
-            psGetUsers.setString(1, thread.getTitle());
+             PreparedStatement psGetUsers = conn.prepareStatement("SELECT username FROM user WHERE userID =" +
+                     "(SELECT userID FROM post WHERE threadID = ?)")) {
+            psGetUsers.setInt(1, thread.getId());
             try (ResultSet rs = psGetUsers.executeQuery()) {
                 while (rs.next())
                     users.add(rs.getString("username"));
@@ -133,5 +138,16 @@ public class ThreadDAO {
             System.out.println(e.getMessage());
         }
         return users;
+    }
+
+    public void nullifyUser(String username) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psNullUser = conn.prepareStatement("UPDATE " + TABLE + " SET userID = NULL WHERE userID =" +
+                     "(SELECT userID FROM user WHERE username = ?")) {
+            psNullUser.setString(1, username);
+            psNullUser.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

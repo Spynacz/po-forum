@@ -1,5 +1,6 @@
 package org.forum.dao;
 
+import org.forum.ForumThread;
 import org.forum.Post;
 
 import java.sql.*;
@@ -61,5 +62,17 @@ public class PostDAO {
             System.out.println(e.getMessage());
         }
         return post;
+    }
+
+    public void nullifyUser(String username) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psNullUser =
+                     conn.prepareStatement("UPDATE " + TABLE + " SET userID = NULL WHERE userID =" +
+                             "(SELECT userID FROM user WHERE username = ?)")) {
+            psNullUser.setString(1, username);
+            psNullUser.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

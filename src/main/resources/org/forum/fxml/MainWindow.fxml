@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 
@@ -8,3 +9,20 @@
       <Tab text="Strona główna" />
    </tabs>
 </TabPane>
+=======
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Scene xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.MainWindow">
+    <AnchorPane prefHeight="200" prefWidth="200">
+      <children>
+         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+           <tabs>
+             <Tab text="Strona główna" />
+           </tabs>
+         </TabPane>
+      </children></AnchorPane>
+</Scene>
+>>>>>>> origin/LogInScreen

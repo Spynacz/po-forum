@@ -23,6 +23,9 @@ public class ThreadPreview {
     private Button deleteButton;
 
     @FXML
+    private Button freezeButton;
+
+    @FXML
     void deleteThread(MouseEvent event) {
 
     }

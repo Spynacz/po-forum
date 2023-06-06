@@ -76,9 +76,10 @@
          <children>
             <Button fx:id="deleteButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteThread" prefHeight="24.0" text="Usuń wątek">
                <HBox.margin>
-                  <Insets bottom="3.0" right="2.0" />
+                  <Insets bottom="3.0" right="5.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteThread" prefHeight="24.0" text="Zamróź wątek" />
          </children>
       </HBox>
    </children>

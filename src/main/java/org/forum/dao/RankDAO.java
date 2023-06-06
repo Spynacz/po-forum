@@ -5,7 +5,7 @@ import java.util.List;
 public interface RankDAO {
     String TABLE = "rank";
 
-    List<String> getByUser(int userID);
+    List<String> getAll();
 
     void insert(String rank);
 

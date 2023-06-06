@@ -1,5 +1,7 @@
 package org.forum.dao;
 
+import org.forum.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,20 +9,19 @@ import java.util.List;
 import static org.forum.Main.DB_URL;
 
 public class RankDAOImpl implements RankDAO {
-    public List<String> getByUser(int userID) {
-        List<String> users = new ArrayList<>();
+    public List<String> getAll() {
+        List<String> allRanks = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetRank =
-                     conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE userID = ?)")) {
-            psGetRank.setInt(1, userID);
-            try (ResultSet rs = psGetRank.executeQuery()) {
-                while (rs.next())
-                    users.add(rs.getString("name"));
+             PreparedStatement psGetAll = conn.prepareStatement("SELECT name FROM " + TABLE)) {
+            try (ResultSet rs = psGetAll.executeQuery()) {
+                while (rs.next()) {
+                    allRanks.add(rs.getString("name"));
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return users;
+        return allRanks;
     }
 
     public void insert(String rank) {

@@ -12,8 +12,8 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAll() {
         List<User> allUsers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement statement = conn.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE)) {
+             PreparedStatement psGetAll = conn.prepareStatement("SELECT * FROM " + TABLE)) {
+            try (ResultSet rs = psGetAll.executeQuery()) {
                 while (rs.next()) {
                     allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count")));
                 }

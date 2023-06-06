@@ -9,6 +9,7 @@ import java.util.List;
 import static org.forum.Main.DB_URL;
 
 public class PostDAOImpl implements PostDAO {
+    @Override
     public Post getById(int id) {
         Post post = null;
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -25,6 +26,7 @@ public class PostDAOImpl implements PostDAO {
         return post;
     }
 
+    @Override
     public List<Post> getByUser(int userID) {
         List<Post> posts = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -42,6 +44,7 @@ public class PostDAOImpl implements PostDAO {
         return posts;
     }
 
+    @Override
     public List<Post> getByThread(int threadID) {
         List<Post> posts = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -58,6 +61,7 @@ public class PostDAOImpl implements PostDAO {
         return posts;
     }
 
+    @Override
     public void insert(Post post) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psInsertPost =
@@ -75,6 +79,7 @@ public class PostDAOImpl implements PostDAO {
         }
     }
 
+    @Override
     public void delete(Post post) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psDeletePost = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE postID = ?")) {
@@ -85,6 +90,7 @@ public class PostDAOImpl implements PostDAO {
         }
     }
 
+    @Override
     public void update(Post post) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psUpdatePost = conn.prepareStatement("UPDATE " + TABLE + " SET body = ? WHERE postID = ?")) {

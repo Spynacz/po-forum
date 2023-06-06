@@ -9,4 +9,7 @@ module org.forum {
     exports org.forum;
     exports org.forum.controllers;
     opens org.forum.controllers to javafx.fxml;
+    exports org.forum.dao;
+    exports org.forum.bll;
+    opens org.forum.bll to javafx.fxml;
 }

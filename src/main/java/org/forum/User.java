@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,6 +18,19 @@ public class User {
         this.name = name;
         this.password = password;
         this.postCount = postCount;
+        this.ranks = new ArrayList<>();
+    }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+        this.postCount = 0;
+        this.ranks = new ArrayList<>();
+    }
+
+    @Override
+    public String toString() {
+        return  name + ' ' + ranks;
     }
 
     private int id;

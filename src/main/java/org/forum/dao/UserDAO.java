@@ -1,8 +1,5 @@
 package org.forum.dao;
 
-import javafx.scene.control.FocusModel;
-import org.forum.ForumThread;
-import org.forum.Post;
 import org.forum.User;
 
 import java.sql.*;
@@ -19,8 +16,9 @@ public class UserDAO {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement statement = conn.createStatement()) {
             try (ResultSet rs = statement.executeQuery("SELECT * FROM " + TABLE)) {
-                while (rs.next())
-                    allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password")));
+                while (rs.next()) {
+                    allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count")));
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -35,7 +33,7 @@ public class UserDAO {
             psGetUser.setString(1, username);
             try (ResultSet rs = psGetUser.executeQuery()) {
                 if (rs.isBeforeFirst())
-                    ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
+                    ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -43,21 +41,19 @@ public class UserDAO {
         return ret;
     }
 
-    public void create(User user) {
+    public void insert(User user) {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:forum.db");
              PreparedStatement psUserExists = connection.prepareStatement("SELECT * FROM user WHERE username = ?")) {
             psUserExists.setString(1, user.getName());
             try (ResultSet rs = psUserExists.executeQuery()) {
                 if (rs.isBeforeFirst()) {
-                    System.out.println("User already exists!");
-
-                    // TODO: UI message
-
+                    throw new SQLIntegrityConstraintViolationException("User already exists!");
                 } else {
                     try (PreparedStatement psInsertUser =
-                                 connection.prepareStatement("INSERT INTO user(username, password) VALUES(?, ?)")) {
+                                 connection.prepareStatement("INSERT INTO user(username, password, post_count) VALUES(?, ?, ?)")) {
                         psInsertUser.setString(1, user.getName());
                         psInsertUser.setString(2, user.getPassword());
+                        psInsertUser.setInt(3, 0);
                         psInsertUser.executeUpdate();
                     }
                 }
@@ -67,59 +63,26 @@ public class UserDAO {
         }
     }
 
-    public void remove(String username) {
+    public void delete(int userID) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psRemoveUser = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE username = ?")) {
-            psRemoveUser.setString(1, username);
+             PreparedStatement psRemoveUser = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE userID = ?")) {
+            psRemoveUser.setInt(1, userID);
             psRemoveUser.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void update(User user, String username, String password) {
+    public void update(User user) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psUpdateUser =
-                     conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, password = ? WHERE userID = ?")) {
+                     conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, password = ?, post_count = ? WHERE userID = ?")) {
             psUpdateUser.setString(1, user.getName());
             psUpdateUser.setString(2, user.getPassword());
-            psUpdateUser.setInt(3, user.getId());
+            psUpdateUser.setInt(3, user.getPostCount());
+            psUpdateUser.setInt(4, user.getId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public List<Post> getPosts(String username) {
-        List<Post> posts = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetPosts =
-                     conn.prepareStatement("SELECT * FROM post WHERE userID = (SELECT userID FROM user WHERE username = ?)")) {
-            psGetPosts.setString(1, username);
-            try (ResultSet rs = psGetPosts.executeQuery()) {
-                while (rs.next())
-                    posts.add(new Post(rs.getInt("postID"), rs.getString("body"), rs.getInt("date"),
-                            rs.getInt("threadID"), rs.getInt("userID"), rs.getInt("noInThread")));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return posts;
-    }
-
-    public List<ForumThread> getThreads(String username) {
-        List<ForumThread> threads = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetThreads =
-                     conn.prepareStatement("SELECT * FROM thread WHERE userID = (SELECT userID FROM user WHERE username = ?)")) {
-            psGetThreads.setString(1, username);
-            try (ResultSet rs = psGetThreads.executeQuery()) {
-                while (rs.next())
-                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getInt("date"),
-                            rs.getInt("userID")));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return threads;
     }
 }

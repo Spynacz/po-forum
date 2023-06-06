@@ -10,8 +10,8 @@ CREATE TABLE thread (
 	threadID integer NOT NULL PRIMARY KEY,
 	title text NOT NULL,
 	date integer NOT NULL,
-	username text NULL,
-	FOREIGN KEY(username) REFERENCES user(username)
+	userID integer NULL,
+	FOREIGN KEY(userID) REFERENCES user(userID)
 );
 
 CREATE TABLE post (
@@ -19,17 +19,16 @@ CREATE TABLE post (
 	body text NOT NULL,
 	date integer NOT NULL,
 	threadID integer NOT NULL,
-	username text NULL,
+	userID integer NULL,
 	FOREIGN KEY(threadID) REFERENCES thread(threadID),
-	FOREIGN KEY(username) REFERENCES user(username)
+	FOREIGN KEY(userID) REFERENCES user(userID)
 );
 
-CREATE INDEX threadCreatorIndex on thread(threadID, username);
+CREATE INDEX threadCreatorIndex on thread(threadID, userID);
 CREATE INDEX postThreadDateIndex on post(threadID, date);
 
 CREATE TABLE rank (
-	name text NOT NULL PRIMARY KEY,
-	rankNo integer
+	name text NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE user_rank (

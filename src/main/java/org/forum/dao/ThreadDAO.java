@@ -2,7 +2,6 @@ package org.forum.dao;
 
 import org.forum.ForumThread;
 import org.forum.User;
-import org.forum.Post;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class ThreadDAO {
         List<ForumThread> threads = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psGetThreads =
-                     conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE creator = ?")) {
+                     conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE username = ?")) {
             psGetThreads.setString(1, user.getName());
             try (ResultSet rs = psGetThreads.executeQuery()) {
                 while (rs.next())
@@ -79,65 +78,28 @@ public class ThreadDAO {
         return threads;
     }
 
-    public void create(ForumThread thread) {
+    public void insert(ForumThread thread) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psInsertThread =
-                     conn.prepareStatement("INSERT INTO " + TABLE + "(threadID, title, date) VALUES(? ? ?)")) {
+                     conn.prepareStatement("INSERT INTO " + TABLE + "(title, date, userID) VALUES(?, ?, ?)")) {
             psInsertThread.setInt(1, thread.getId());
             psInsertThread.setString(2, thread.getTitle());
             psInsertThread.setLong(3, thread.getTimestamp());
+            psInsertThread.setInt(4, thread.getUserID());
             psInsertThread.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void delete(ForumThread thread) {
+    public void delete(int threadID) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psDeleteAllPosts = conn.prepareStatement("DELETE FROM post WHERE threadID = ?");
              PreparedStatement psDeleteThread = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE threadID = ?")) {
-            psDeleteAllPosts.setInt(1, thread.getId());
-            psDeleteThread.setInt(1, thread.getId());
+            psDeleteThread.setInt(1, threadID);
             psDeleteThread.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public List<Post> getPosts(ForumThread thread) {
-        List<Post> posts = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetPosts = conn.prepareStatement("SELECT * FROM post WHERE threadID = ?")) {
-            psGetPosts.setString(1, thread.getTitle());
-            try (ResultSet rs = psGetPosts.executeQuery()) {
-                while (rs.next())
-                    posts.add(new Post(rs.getInt("postID"), rs.getString("body"), rs.getInt("date"),
-                            rs.getInt("threadID"), rs.getInt("userID"), rs.getInt("noInThread")));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return posts;
-    }
-
-    /**
-     * @param thread
-     * @return usernames of users who posted in the thread
-     */
-    public List<String> getUsers(ForumThread thread) {
-        List<String> users = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psGetUsers = conn.prepareStatement("SELECT username FROM user WHERE userID =" +
-                     "(SELECT userID FROM post WHERE threadID = ?)")) {
-            psGetUsers.setInt(1, thread.getId());
-            try (ResultSet rs = psGetUsers.executeQuery()) {
-                while (rs.next())
-                    users.add(rs.getString("username"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return users;
     }
 
     public void nullifyUser(String username) {

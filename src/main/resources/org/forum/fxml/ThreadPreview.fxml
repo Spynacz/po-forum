@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="200.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadPreview">
    <children>
       <Label text="Nazwa watku">
@@ -55,7 +54,8 @@
       <GridPane>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="551.0" minWidth="10.0" prefWidth="491.79998779296875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="491.79998779296875" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
@@ -66,7 +66,15 @@
                   <Insets right="2.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="autorField" text="autorField" GridPane.columnIndex="1" />
+            <Label fx:id="autorField" text="autorField" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets right="2.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
+               <font>
+                  <Font name="System Bold" size="10.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <HBox prefHeight="30.0" prefWidth="624.0">

@@ -11,6 +11,9 @@ public class ThreadTab {
     private VBox ThreadBodyContainer;
 
     @FXML
+    private Label autorField;
+
+    @FXML
     private Button editButton;
 
     @FXML
@@ -21,6 +24,9 @@ public class ThreadTab {
 
     @FXML
     private Label login;
+
+    @FXML
+    private Label ranKfield;
 
     @FXML
     private Label topicField;

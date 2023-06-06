@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.forum.dao.UserDAO;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Getter

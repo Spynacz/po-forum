@@ -20,7 +20,4 @@ public interface ThreadDAO {
     void insert(ForumThread thread);
 
     void delete(int threadID);
-
-    void nullifyUser(String username);
-
 }

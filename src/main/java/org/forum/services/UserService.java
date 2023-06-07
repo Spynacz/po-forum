@@ -32,14 +32,14 @@ public class UserService {
         userRankDAO.getByUser(id).forEach(r -> userRankDAO.delete(id, r));
     }
 
-    public void addRank(String username, String rank) throws SQLDataException, SQLIntegrityConstraintViolationException {
+    public void addRank(String username, String rank) {
         if (!rankDAO.getAll().contains(rank))
-            throw new SQLDataException("Rank does not exist");
+            throw new RuntimeException("Rank does not exist");
 
         User user = userDAO.getByUsername(username);
         List<String> ranks = userRankDAO.getByUser(user.getId());
         if (ranks.contains(rank))
-            throw new SQLIntegrityConstraintViolationException("User already has this rank");
+            throw new RuntimeException("User already has this rank");
 
         ranks.add(rank);
         user.setRanks(ranks);
@@ -47,11 +47,11 @@ public class UserService {
         userRankDAO.insert(user.getId(), rank);
     }
 
-    public void removeRank(String username, String rank) throws SQLDataException {
+    public void removeRank(String username, String rank) {
         User user = userDAO.getByUsername(username);
         List<String> ranks = userRankDAO.getByUser(user.getId());
         if (!ranks.contains(rank))
-            throw new SQLDataException("User does not have this rank");
+            throw new RuntimeException("User does not have this rank");
 
         ranks.remove(rank);
         user.setRanks(ranks);

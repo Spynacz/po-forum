@@ -1,4 +1,4 @@
-package org.forum.bll;
+package org.forum.services;
 
 import org.forum.User;
 import org.forum.dao.RankDAO;
@@ -9,8 +9,8 @@ import java.sql.SQLDataException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-public class UserBLL {
-    public UserBLL(final UserDAO userDAO, final RankDAO rankDAO, UserRankDAO userRankDAO) {
+public class UserService {
+    public UserService(final UserDAO userDAO, final RankDAO rankDAO, UserRankDAO userRankDAO) {
         this.userDAO = userDAO;
         this.rankDAO = rankDAO;
         this.userRankDAO = userRankDAO;

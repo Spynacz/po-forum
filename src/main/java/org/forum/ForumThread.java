@@ -12,13 +12,13 @@ public class ForumThread {
         this.id = id;
         this.title = title;
         this.timestamp = timestamp;
-        this.userID = userID;
+        this.userId = userID;
     }
 
     private int id;
     private String title;
     private long timestamp;
-    private int userID;
+    private int userId;
     private boolean closed;
 //    private boolean archived;     maybe
 }

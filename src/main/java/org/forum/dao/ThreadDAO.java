@@ -15,9 +15,11 @@ public interface ThreadDAO {
 
     List<ForumThread> getByDate(long timestamp);
 
-    List<ForumThread> getByUser(User user);
+    List<ForumThread> getByUser(int userID);
 
     void insert(ForumThread thread);
 
     void delete(int threadID);
+
+    void update(ForumThread thread);
 }

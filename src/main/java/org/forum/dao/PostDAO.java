@@ -7,6 +7,8 @@ import java.util.List;
 public interface PostDAO {
     String TABLE = "post";
 
+    List<Post> getAll();
+
     Post getById(int id);
 
     List<Post> getByUser(int userID);

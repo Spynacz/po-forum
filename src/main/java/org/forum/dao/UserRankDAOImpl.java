@@ -20,7 +20,7 @@ public class UserRankDAOImpl implements UserRankDAO {
                     ranks.add(rs.getString("rank"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return ranks;
     }
@@ -34,7 +34,7 @@ public class UserRankDAOImpl implements UserRankDAO {
             psInsertRank.setString(2, rank);
             psInsertRank.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -47,7 +47,7 @@ public class UserRankDAOImpl implements UserRankDAO {
             psDeleteRank.setString(2, rank);
             psDeleteRank.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

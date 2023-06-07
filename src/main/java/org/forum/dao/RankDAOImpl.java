@@ -19,7 +19,7 @@ public class RankDAOImpl implements RankDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return allRanks;
     }
@@ -29,8 +29,9 @@ public class RankDAOImpl implements RankDAO {
              PreparedStatement psInsertRank =
                      conn.prepareStatement("INSERT INTO " + TABLE + "(name) VALUES(?)")) {
             psInsertRank.setString(1, rank);
+            psInsertRank.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -40,7 +41,7 @@ public class RankDAOImpl implements RankDAO {
             psDeleteRank.setString(1, rank);
             psDeleteRank.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -51,7 +52,7 @@ public class RankDAOImpl implements RankDAO {
             psUpdateRank.setString(2, name);
             psUpdateRank.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

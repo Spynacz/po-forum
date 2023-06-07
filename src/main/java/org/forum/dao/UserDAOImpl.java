@@ -19,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return allUsers;
     }
@@ -30,11 +30,12 @@ public class UserDAOImpl implements UserDAO {
              PreparedStatement psGetUser = conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE username = ?")) {
             psGetUser.setString(1, username);
             try (ResultSet rs = psGetUser.executeQuery()) {
-                if (rs.isBeforeFirst())
-                    ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
+                if (!rs.isBeforeFirst())
+                    throw new SQLDataException("User doesn't exist");
+                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return ret;
     }
@@ -57,7 +58,7 @@ public class UserDAOImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -67,7 +68,7 @@ public class UserDAOImpl implements UserDAO {
             psRemoveUser.setInt(1, userID);
             psRemoveUser.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -80,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
             psUpdateUser.setInt(3, user.getPostCount());
             psUpdateUser.setInt(4, user.getId());
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

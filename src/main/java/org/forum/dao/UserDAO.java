@@ -2,6 +2,7 @@ package org.forum.dao;
 
 import org.forum.User;
 
+import java.sql.SQLDataException;
 import java.util.List;
 
 public interface UserDAO {

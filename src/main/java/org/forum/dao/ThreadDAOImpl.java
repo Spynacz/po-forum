@@ -23,7 +23,7 @@ public class ThreadDAOImpl implements ThreadDAO {
                             rs.getInt("userID"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return thread;
     }
@@ -40,7 +40,7 @@ public class ThreadDAOImpl implements ThreadDAO {
                             rs.getInt("userID")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return threads;
     }
@@ -58,7 +58,7 @@ public class ThreadDAOImpl implements ThreadDAO {
                             rs.getInt("userID")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return threads;
     }
@@ -76,7 +76,7 @@ public class ThreadDAOImpl implements ThreadDAO {
                             rs.getInt("userID")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
         return threads;
     }
@@ -89,10 +89,10 @@ public class ThreadDAOImpl implements ThreadDAO {
             psInsertThread.setInt(1, thread.getId());
             psInsertThread.setString(2, thread.getTitle());
             psInsertThread.setLong(3, thread.getTimestamp());
-            psInsertThread.setInt(4, thread.getUserID());
+            psInsertThread.setInt(4, thread.getUserId());
             psInsertThread.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -103,7 +103,7 @@ public class ThreadDAOImpl implements ThreadDAO {
             psDeleteThread.setInt(1, threadID);
             psDeleteThread.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -114,7 +114,7 @@ public class ThreadDAOImpl implements ThreadDAO {
             psUpdateThread.setInt(2, thread.getId());
             psUpdateThread.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

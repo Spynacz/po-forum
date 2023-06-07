@@ -80,10 +80,10 @@ public class PostDAOImpl implements PostDAO {
     }
 
     @Override
-    public void delete(Post post) {
+    public void delete(int postID) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psDeletePost = conn.prepareStatement("DELETE FROM " + TABLE + " WHERE postID = ?")) {
-            psDeletePost.setInt(1, post.getId());
+            psDeletePost.setInt(1, postID);
             psDeletePost.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

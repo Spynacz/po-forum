@@ -20,6 +20,16 @@ public class UserBLL {
         userDAO.insert(user);
     }
 
+    public void removeUser(String username) {
+        int id = userDAO.getByUsername(username).getId();
+
+        // delete user
+        userDAO.delete(id);
+
+        // delete all user's ranks
+        userRankDAO.getByUser(id).forEach(r -> userRankDAO.delete(id, r));
+    }
+
     public void addRank(String username, String rank) throws SQLDataException, SQLIntegrityConstraintViolationException {
         if (!rankDAO.getAll().contains(rank))
             throw new SQLDataException("Rank does not exist");

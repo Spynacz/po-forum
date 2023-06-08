@@ -11,6 +11,7 @@ CREATE TABLE thread (
 	title text NOT NULL,
 	date integer NOT NULL,
 	userID integer NULL,
+	closed integer NOT NULL DEFAULT 0,
 	FOREIGN KEY(userID) REFERENCES user(userID)
 );
 
@@ -20,6 +21,7 @@ CREATE TABLE post (
 	date integer NOT NULL,
 	threadID integer NOT NULL,
 	userID integer NULL,
+	noInThread integer NOT NULL,
 	FOREIGN KEY(threadID) REFERENCES thread(threadID),
 	FOREIGN KEY(userID) REFERENCES user(userID)
 );

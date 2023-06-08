@@ -14,7 +14,6 @@ public class Post {
         this.body = body;
         this.userId = userId;
         this.timestamp = System.currentTimeMillis();
-//        this.noInThread = 0;
         this.threadId = threadId;
     }
 
@@ -23,5 +22,5 @@ public class Post {
     private long timestamp;
     private int threadId;
     private int userId;
-//    private int noInThread;
+    private int noInThread;
 }

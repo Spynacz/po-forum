@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ForumThread {
-    public ForumThread(int id, String title, long timestamp, int userID) {
-        this.id = id;
+    public ForumThread(String title, int userID) {
         this.title = title;
-        this.timestamp = timestamp;
+        this.timestamp = System.currentTimeMillis();
         this.userId = userID;
+        this.closed = false;
     }
 
     private int id;

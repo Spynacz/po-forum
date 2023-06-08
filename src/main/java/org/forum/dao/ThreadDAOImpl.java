@@ -96,6 +96,9 @@ public class ThreadDAOImpl implements ThreadDAO {
 
     @Override
     public void insert(ForumThread thread) {
+        if (thread.getTitle().isBlank())
+            throw new RuntimeException("Thread must have a title");
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psInsertThread =
                      conn.prepareStatement("INSERT INTO " + TABLE + "(title, date, userID, closed) VALUES(?, ?, ?, ?)")) {
@@ -121,10 +124,15 @@ public class ThreadDAOImpl implements ThreadDAO {
     }
 
     public void update(ForumThread thread) {
+        if (thread.getTitle().isBlank())
+            throw new RuntimeException("Thread must have a title");
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement psUpdateThread = conn.prepareStatement("UPDATE " + TABLE + " SET title = ? WHERE threadID = ?")) {
+             PreparedStatement psUpdateThread = conn.prepareStatement("UPDATE " + TABLE + " SET title = ?, userID = ?, closed = ? WHERE threadID = ?")) {
             psUpdateThread.setString(1, thread.getTitle());
-            psUpdateThread.setInt(2, thread.getId());
+            psUpdateThread.setInt(2, thread.getUserId());
+            psUpdateThread.setBoolean(3, thread.isClosed());
+            psUpdateThread.setInt(4, thread.getId());
             psUpdateThread.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

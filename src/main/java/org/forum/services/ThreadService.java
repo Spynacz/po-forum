@@ -31,6 +31,12 @@ public class ThreadService {
         });
     }
 
+    public void closeThread(int threadID) {
+        ForumThread thread = threadDAO.getById(threadID);
+        thread.setClosed(true);
+        threadDAO.update(thread);
+    }
+
     private final ThreadDAO threadDAO;
     private final PostDAO postDAO;
 }

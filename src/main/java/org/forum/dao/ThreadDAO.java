@@ -9,6 +9,8 @@ import java.util.List;
 public interface ThreadDAO {
     String TABLE = "thread";
 
+    List<ForumThread> getAll();
+
     ForumThread getById(int id);
 
     List<ForumThread> getByTitle(String title);

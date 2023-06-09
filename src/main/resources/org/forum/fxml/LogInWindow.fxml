@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -10,11 +12,19 @@
 
 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.LogInWindow">
    <children>
-      <Label text="Zaloguj sie" />
+      <Label fx:id="infoLabel" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" text="Nie udało się zalogować. Spróbuj ponownie!" textFill="#de2a2a" visible="false">
+         <VBox.margin>
+            <Insets bottom="2.0" />
+         </VBox.margin>
+      </Label>
+      <Label text="Zaloguj sie">
+         <VBox.margin>
+            <Insets bottom="2.0" />
+         </VBox.margin></Label>
       <GridPane>
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.20001983642578" minWidth="10.0" prefWidth="153.20001220703125" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -23,11 +33,22 @@
          <children>
             <TextField fx:id="logInText" GridPane.columnIndex="1" />
             <PasswordField fx:id="passwordText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="login" />
-            <Label text="hasło" GridPane.rowIndex="1" />
+            <Label text="login">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin></Label>
+            <Label text="hasło" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin></Label>
          </children>
+         <VBox.margin>
+            <Insets bottom="2.0" />
+         </VBox.margin>
       </GridPane>
       <Button mnemonicParsing="false" onAction="#logIn" text="Zaloguj" />
    </children>
+   <padding>
+      <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+   </padding>
 </VBox>
-

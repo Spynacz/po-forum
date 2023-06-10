@@ -48,14 +48,13 @@ public class MainWindow{
 
     @FXML
     void addThread(MouseEvent event) {
-
+        //TODO:improve this version of ading new threads
         ForumThread forumThread = new ForumThread("Nowy wątek",user.getId());
         threadService.createThread(forumThread);
         try {
             fillInThreadsContainer();
         }catch (Exception e)
         {
-            System.out.println("złąpano"+e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
     }

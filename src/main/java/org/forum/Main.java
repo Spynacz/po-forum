@@ -26,7 +26,7 @@ public class Main extends Application {
         scene.setRoot(fxmlLoader.load());
         return fxmlLoader;
     }
-    private static FXMLLoader loadFXML(String fxml) throws IOException {
+    public static FXMLLoader loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
         return fxmlLoader;
     }

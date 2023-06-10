@@ -40,7 +40,21 @@ public class ThreadDAOImpl implements ThreadDAO {
         }
         return thread;
     }
-
+    @Override
+    public List<ForumThread> getAll() {
+        List<ForumThread> threads = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psGetThreads = conn.prepareStatement("SELECT * FROM " + TABLE )) {
+            try (ResultSet rs = psGetThreads.executeQuery()) {
+                while (rs.next())
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return threads;
+    }
     @Override
     public List<ForumThread> getByTitle(String title) {
         List<ForumThread> threads = new ArrayList<>();

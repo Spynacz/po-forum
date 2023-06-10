@@ -7,11 +7,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.forum.User;
-import org.forum.dao.ThreadDAO;
-import org.forum.dao.ThreadDAOImpl;
+import org.forum.dao.*;
 
 public class MainWindow{
+    private User user;
+    private UserDAO usersTable;
+    private ThreadDAO threadsTable;
 
+    private RankDAO rankDAO;
     @FXML
     private VBox ThreadsContainer;
 
@@ -20,7 +23,13 @@ public class MainWindow{
 
     @FXML
     private TextField searchField;
-
+    public MainWindow()
+    {
+        user = null;
+        usersTable = null;
+        threadsTable = new ThreadDAOImpl();
+        rankDAO = new RankDAOImpl();
+    }
     @FXML
     void KeyPressedCheckIfEnterPressed(KeyEvent event) {
 
@@ -30,9 +39,11 @@ public class MainWindow{
     void SearchFor(MouseEvent event) {
 
     }
-    public void initilizeController(User user)
+    public void initilizeController(User user, UserDAO usersTable)
     {
-        //TODO: implementation
+        this.user = user;
+        this.usersTable = usersTable;
+        login.setText(user.getName());
     }
 
 }

@@ -19,42 +19,40 @@ import java.io.IOException;
 public class LogInWindow {
 
 
+
+
     private UserDAO userTable;
-    private UserService userService;
-
     public LogInWindow() {
-        userTable = new UserDAOImpl();
-        userService = new UserService(userTable);
+    userTable = new UserDAOImpl();
     }
-
     @FXML
     private Label infoLabel;
-    @FXML
-    private Label nameTaken;
-    @FXML
-    private Label passwordRequired;
 
     @FXML
     private TextField logInText;
 
     @FXML
     private PasswordField passwordText;
-
     @FXML
     void logIn(ActionEvent event) throws IOException {
 
-        try {
+        try
+        {
             User user = null;
-            user = userTable.getByUsername(logInText.getText());
-            if (user != null && user.getPassword().equals(passwordText.getText())) {
+        user = usersTable.getByUsername(logInText.getText());
+            if(user != null && user.getPassword().equals(passwordText.getText()))
+            {
                 FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
                 MainWindow mainWindow = fxmlLoader.getController();
-                mainWindow.initilizeController(user);
-            } else {
+                mainWindow.initilizeController(user,usersTable);
+            }
+            else {
                 throw new RuntimeException("Invalid user or login");
             }
-        } catch (RuntimeException e) {
-            infoLabel.setVisible(true);
+        }
+        catch (RuntimeException e)
+        {
+        infoLabel.setVisible(true);
         }
 
 

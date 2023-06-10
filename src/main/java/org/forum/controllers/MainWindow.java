@@ -6,8 +6,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.forum.User;
+import org.forum.dao.ThreadDAO;
+import org.forum.dao.ThreadDAOImpl;
 
-public class MainWindow {
+public class MainWindow{
 
     @FXML
     private VBox ThreadsContainer;
@@ -26,6 +29,10 @@ public class MainWindow {
     @FXML
     void SearchFor(MouseEvent event) {
 
+    }
+    public void initilizeController(User user)
+    {
+        //TODO: implementation
     }
 
 }

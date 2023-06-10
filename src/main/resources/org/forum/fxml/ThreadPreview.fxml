@@ -12,7 +12,7 @@
 
 <VBox maxHeight="200.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadPreview">
    <children>
-      <Label text="Nazwa watku">
+      <Label fx:id="threadTitle" text="Nazwa watku">
          <font>
             <Font size="18.0" />
          </font>
@@ -25,14 +25,6 @@
          <rowConstraints>
             <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
          </rowConstraints>
-         <children>
-            <Label text="Tytuł">
-               <GridPane.margin>
-                  <Insets right="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="date1" text="titleField" GridPane.columnIndex="1" />
-         </children>
       </GridPane>
       <GridPane>
         <columnConstraints>
@@ -70,7 +62,7 @@
                <GridPane.margin>
                   <Insets right="2.0" />
                </GridPane.margin></Label>
-            <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
+            <Label fx:id="rankField" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>

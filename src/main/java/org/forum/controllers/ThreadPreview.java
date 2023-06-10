@@ -48,6 +48,8 @@ public class ThreadPreview {
 
     @FXML
     private Button freezeButton;
+    @FXML
+    private Button unFreezeButton;
 
     @FXML
     private Label rankField;
@@ -66,19 +68,27 @@ public class ThreadPreview {
         }
     }
     @FXML
-    void frezeThread(MouseEvent event) {
-        try
-        {
+    void freezeThread(MouseEvent event) {
+        try {
             thread.setClosed(true);
             threadTable.update(thread);
             statusChanged.invoked(this);
-        }
-        catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             //ToDO: error handling
         }
-
     }
+        @FXML
+        void unFreezeThread(MouseEvent event) {
+            try {
+                thread.setClosed(false);
+                threadTable.update(thread);
+                statusChanged.invoked(this);
+            } catch (RuntimeException e) {
+                //ToDO: error handling
+            }
+        }
+
+
     public void initilizeController(User logedUser, ForumThread thread, UserDAO userTable, ThreadDAO threadTable, PostDAO postTable, UserRankDAO rankTable, ThreadService threadService, CallBack statusChanged)
     {
         this.thread = thread;
@@ -87,10 +97,21 @@ public class ThreadPreview {
         this.postTable = postTable;
         this.userRankTable = rankTable;
         User user = userTable.getById(thread.getUserId());
+        threadTitle.setText(thread.getTitle());
         autorField.setText(user.getName());
         dataField.setText((new Date(thread.getTimestamp())).toString());
         this.threadService = threadService;
         this.statusChanged = statusChanged;
+        if(thread.isClosed())
+        {
+            freezeButton.setVisible(false);
+            freezeButton.setManaged(false);
+        }
+        else
+        {
+            unFreezeButton.setVisible(false);
+            unFreezeButton.setManaged(false);
+        }
         List<String> ranks = null;
         try {
             ranks = rankTable.getByUser(user.getId());
@@ -105,6 +126,7 @@ public class ThreadPreview {
         {
             deleteButton.setVisible(false);
             freezeButton.setVisible(false);
+            unFreezeButton.setVisible(false);
         }
     }
 

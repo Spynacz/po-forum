@@ -8,7 +8,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.forum.User;
+import org.forum.controllers.utils.Helpers;
 import org.forum.dao.*;
+import org.forum.services.ThreadService;
 
 import java.util.List;
 
@@ -17,7 +19,9 @@ public class MainWindow{
     private UserDAO usersTable;
     private ThreadDAO threadsTable;
 
-    private UserRankDAO rankDAO;
+    private UserRankDAO userRankTable;
+    private PostDAO postTable;
+    private ThreadService threadService;
     @FXML
     private VBox ThreadsContainer;
 
@@ -33,7 +37,9 @@ public class MainWindow{
         user = null;
         usersTable = null;
         threadsTable = new ThreadDAOImpl();
-        rankDAO = new UserRankDAOImpl();
+        userRankTable = new UserRankDAOImpl();
+        postTable = new PostDAOImpl();
+        threadService = new ThreadService(threadsTable, postTable);
     }
     @FXML
     void addPost(MouseEvent event) {
@@ -61,8 +67,8 @@ public class MainWindow{
         login.setText(user.getName());
 
         try {
-            List<String> ranks = rankDAO.getByUser(user.getId());
-            ranKfield.setText(Utils.ListToString(ranks));
+            List<String> ranks = userRankTable.getByUser(user.getId());
+            ranKfield.setText(Helpers.ListToString(ranks));
         }
         catch (RuntimeException e)
         {

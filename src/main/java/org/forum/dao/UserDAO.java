@@ -11,7 +11,7 @@ public interface UserDAO {
     List<User> getAll();
 
     User getByUsername(String username);
-
+    User getById(int Id);
     void insert(User user);
 
     void delete(int userID);

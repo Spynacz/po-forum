@@ -39,6 +39,21 @@ public class UserDAOImpl implements UserDAO {
         }
         return ret;
     }
+    public User getById(int id) {
+        User ret = null;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psGetUser = conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE userID = ?")) {
+            psGetUser.setString(1, String.valueOf(id));
+            try (ResultSet rs = psGetUser.executeQuery()) {
+                if (!rs.isBeforeFirst())
+                    throw new SQLDataException("User doesn't exist");
+                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ret;
+    }
 
     public void insert(User user) {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:forum.db");

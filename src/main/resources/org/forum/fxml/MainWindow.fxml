@@ -92,7 +92,7 @@
                                     <Insets bottom="3.0" top="3.0" />
                                  </padding>
                                  <children>
-                                    <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj wątek">
+                                    <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addThread" prefHeight="24.0" text="Dodaj wątek">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>

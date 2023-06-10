@@ -2,16 +2,21 @@ package org.forum.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.forum.ForumThread;
+import org.forum.Main;
 import org.forum.User;
+import org.forum.controllers.utils.CallBack;
 import org.forum.controllers.utils.Helpers;
 import org.forum.dao.*;
 import org.forum.services.ThreadService;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MainWindow{
@@ -40,10 +45,8 @@ public class MainWindow{
         userRankTable = new UserRankDAOImpl();
         postTable = new PostDAOImpl();
         threadService = new ThreadService(threadsTable, postTable);
-    }
-    @FXML
-    void addPost(MouseEvent event) {
-
+        ForumThread forumThread = new ForumThread(8,"Asdd",20000,3);
+        threadsTable.insert(forumThread);System.out.println("thread adddddd");
     }
 
     @FXML
@@ -60,6 +63,21 @@ public class MainWindow{
     void searchFor(MouseEvent event) {
 
     }
+    private void threadPreviewCallBack(Object source)
+    {
+
+    }
+    private void fillInThreadsContainer() throws IOException {
+        List<ForumThread> list = threadsTable.getAll();
+        for(ForumThread thread : list)
+        {
+            FXMLLoader loader = Main.loadFXML("ThreadPreview");
+            ThreadPreview threadPreview = loader.getController();
+            threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack);
+            System.out.println("thread shown");
+            ThreadsContainer.getChildren().add(loader.load());
+        }
+    }
     public void initilizeController(User user, UserDAO usersTable)
     {
         this.user = user;
@@ -73,6 +91,12 @@ public class MainWindow{
         catch (RuntimeException e)
         {
             ranKfield.setText("");
+        }
+        try {
+            fillInThreadsContainer();
+        }catch (Exception e)
+        {
+//ToDO: exception handling
         }
 
     }

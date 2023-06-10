@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import org.forum.ForumThread;
 import org.forum.Main;
 import org.forum.User;
-import org.forum.controllers.utils.CallBack;
 import org.forum.controllers.utils.Helpers;
 import org.forum.dao.*;
 import org.forum.services.ThreadService;
@@ -28,7 +27,7 @@ public class MainWindow{
     private PostDAO postTable;
     private ThreadService threadService;
     @FXML
-    private VBox ThreadsContainer;
+    private VBox threadsContainer;
 
     @FXML
     private Label login;
@@ -45,13 +44,20 @@ public class MainWindow{
         userRankTable = new UserRankDAOImpl();
         postTable = new PostDAOImpl();
         threadService = new ThreadService(threadsTable, postTable);
-        ForumThread forumThread = new ForumThread(8,"Asdd",20000,3);
-        threadsTable.insert(forumThread);System.out.println("thread adddddd");
     }
 
     @FXML
-    void addThread(ActionEvent event) {
+    void addThread(MouseEvent event) {
 
+        ForumThread forumThread = new ForumThread("Nowy wątek",user.getId());
+        threadService.createThread(forumThread);
+        try {
+            fillInThreadsContainer();
+        }catch (Exception e)
+        {
+            System.out.println("złąpano"+e.getMessage());
+            Helpers.showErrorWinowAndExitAplication();
+        }
     }
 
     @FXML
@@ -65,17 +71,25 @@ public class MainWindow{
     }
     private void threadPreviewCallBack(Object source)
     {
+        try {
+            fillInThreadsContainer();
+        }catch (Exception e)
+        {
+            System.out.println("złąpano"+e.getMessage());
+            Helpers.showErrorWinowAndExitAplication();
+        }
 
     }
     private void fillInThreadsContainer() throws IOException {
+        threadsContainer.getChildren().clear();
         List<ForumThread> list = threadsTable.getAll();
         for(ForumThread thread : list)
         {
-            FXMLLoader loader = Main.loadFXML("ThreadPreview");
+            FXMLLoader loader = Main.loadFXML("fxml/ThreadPreview");
+            VBox v = loader.load();
+            threadsContainer.getChildren().add(v);
             ThreadPreview threadPreview = loader.getController();
             threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack);
-            System.out.println("thread shown");
-            ThreadsContainer.getChildren().add(loader.load());
         }
     }
     public void initilizeController(User user, UserDAO usersTable)
@@ -96,7 +110,8 @@ public class MainWindow{
             fillInThreadsContainer();
         }catch (Exception e)
         {
-//ToDO: exception handling
+            System.out.println("złąpano"+e.getMessage());
+            Helpers.showErrorWinowAndExitAplication();
         }
 
     }

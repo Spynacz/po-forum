@@ -84,9 +84,9 @@
                   </GridPane>
                   <ScrollPane prefHeight="422.0" prefWidth="640.0">
                      <content>
-                        <VBox fx:id="ThreadBodyContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="624.0">
+                        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="624.0">
                            <children>
-                              <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
+                              <VBox fx:id="threadsContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
                               <HBox prefHeight="30.0" prefWidth="624.0">
                                  <padding>
                                     <Insets bottom="3.0" top="3.0" />

@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.MainWindow">
    <tabs>
@@ -33,12 +34,12 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <TextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#KeyPressedCheckIfEnterPressed" prefHeight="23.0" prefWidth="120.0">
+                              <TextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressedCheckIfEnterPressed" prefHeight="23.0" prefWidth="120.0">
                                  <HBox.margin>
                                     <Insets right="2.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#SearchFor" prefHeight="23.0" prefWidth="25.0">
+                              <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#searchFor" prefHeight="23.0" prefWidth="25.0">
                                  <graphic>
                                     <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <viewport>
@@ -58,14 +59,22 @@
                               <Insets bottom="2.0" left="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
                               <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="Zalogowano:">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="login" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="NazwaUżytkownika" />
+                              <Label fx:id="login" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="NazwaUżytkownika">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin></Label>
+                              <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                            <padding>
                               <Insets bottom="2.0" right="5.0" top="5.0" />
@@ -75,7 +84,36 @@
                   </GridPane>
                   <ScrollPane prefHeight="422.0" prefWidth="640.0">
                      <content>
-                        <VBox fx:id="ThreadsContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="624.0" />
+                        <VBox fx:id="ThreadBodyContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="624.0">
+                           <children>
+                              <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
+                              <HBox prefHeight="30.0" prefWidth="624.0">
+                                 <padding>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </padding>
+                                 <children>
+                                    <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj wątek">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
+                              <HBox prefHeight="30.0" prefWidth="624.0">
+                                 <padding>
+                                    <Insets bottom="3.0" top="3.0" />
+                                 </padding>
+                                 <children>
+                                    <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#addThread" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj watek">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </content>
                   </ScrollPane>
                </children>

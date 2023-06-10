@@ -11,50 +11,70 @@ import org.forum.User;
 import org.forum.dao.ThreadDAO;
 import org.forum.dao.UserDAO;
 import org.forum.dao.UserDAOImpl;
+import org.forum.services.NoPasswordException;
+import org.forum.services.UserService;
 
 import java.io.IOException;
 
 public class LogInWindow {
 
 
-
-
     private UserDAO userTable;
+    private UserService userService;
+
     public LogInWindow() {
-    userTable = new UserDAOImpl();
+        userTable = new UserDAOImpl();
+        userService = new UserService(userTable);
     }
+
     @FXML
     private Label infoLabel;
+    @FXML
+    private Label nameTaken;
+    @FXML
+    private Label passwordRequired;
 
     @FXML
     private TextField logInText;
 
     @FXML
     private PasswordField passwordText;
+
     @FXML
     void logIn(ActionEvent event) throws IOException {
 
-        try
-        {
+        try {
             User user = null;
-        user = userTable.getByUsername(logInText.getText());
-            if(user != null && user.getPassword().equals(passwordText.getText()))
-            {
+            user = userTable.getByUsername(logInText.getText());
+            if (user != null && user.getPassword().equals(passwordText.getText())) {
                 FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
                 MainWindow mainWindow = fxmlLoader.getController();
                 mainWindow.initilizeController(user);
-            }
-            else {
+            } else {
                 throw new RuntimeException("Invalid user or login");
             }
-        }
-        catch (RuntimeException e)
-        {
-        infoLabel.setVisible(true);
+        } catch (RuntimeException e) {
+            infoLabel.setVisible(true);
         }
 
 
+    }
 
+    @FXML
+    void register(ActionEvent event) throws IOException {
+        User newUser = new User(logInText.getText(), passwordText.getText());
+        try {
+            userService.addUser(newUser);
+            FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
+            MainWindow mainWindow = fxmlLoader.getController();
+            mainWindow.initilizeController(newUser);
+        } catch (NoPasswordException e) {
+            nameTaken.setVisible(false);
+            passwordRequired.setVisible(true);
+        } catch (RuntimeException e) {
+            passwordRequired.setVisible(false);
+            nameTaken.setVisible(true);
+        }
     }
 
 }

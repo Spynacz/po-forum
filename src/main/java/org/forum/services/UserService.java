@@ -18,7 +18,17 @@ public class UserService {
         this.postDAO = postDAO;
     }
 
+    public UserService(final UserDAO userDAO) {
+        this.userDAO = userDAO;
+        this.rankDAO = null;
+        this.userRankDAO = null;
+        this.postDAO = null;
+    }
+
     public void addUser(User user) {
+        if (user.getPassword().isBlank())
+            throw new NoPasswordException("Password required");
+
         userDAO.insert(user);
     }
 

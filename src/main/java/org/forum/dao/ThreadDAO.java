@@ -10,9 +10,7 @@ public interface ThreadDAO {
     String TABLE = "thread";
 
     List<ForumThread> getAll();
-
     ForumThread getById(int id);
-    List<ForumThread> getAll();
     List<ForumThread> getByTitle(String title);
 
     List<ForumThread> getByDate(long timestamp);

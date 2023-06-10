@@ -62,12 +62,7 @@ public class MainWindow{
 
         try {
             List<String> ranks = rankDAO.getByUser(user.getId());
-            String val  = "";
-            for(String rank : ranks)
-            {
-                val += rank;
-            }
-            ranKfield.setText(val);
+            ranKfield.setText(Utils.ListToString(ranks));
         }
         catch (RuntimeException e)
         {

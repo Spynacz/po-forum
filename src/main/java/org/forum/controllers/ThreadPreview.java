@@ -96,7 +96,14 @@ public class ThreadPreview {
         this.threadTable =threadTable;
         this.postTable = postTable;
         this.userRankTable = rankTable;
-        User user = userTable.getById(thread.getUserId());
+        User user = null;
+        try {
+            user = userTable.getById(thread.getUserId());
+        }
+        catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
         threadTitle.setText(thread.getTitle());
         autorField.setText(user.getName());
         dataField.setText((new Date(thread.getTimestamp())).toString());

@@ -97,19 +97,12 @@ public class MainWindow{
     {
         try {
             ThreadPreview threadPreiew = (ThreadPreview) source;
-            System.out.println("AAAA1");
             ForumThread forumThread = threadPreiew.getThread();
-            System.out.println("AAAA2");
             FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
-            System.out.println("AAAA3");
             Tab tab = loader.load();
-            System.out.println("AAAA4");
             ThreadTab threadTab = loader.getController();;
-            System.out.println("AAAA5");
             threadTab.initializeController(forumThread,false,user,usersTable,postService,userRankTable,this::threadCallBack);
-            System.out.println("AAAA6");
             tabsContainer.getTabs().add(tab);
-            System.out.println("AAAA7");
         }catch (Exception e)
         {
             System.out.println(e.getMessage());

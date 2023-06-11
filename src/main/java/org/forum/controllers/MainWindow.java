@@ -1,6 +1,5 @@
 package org.forum.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -90,8 +89,9 @@ public class MainWindow{
             ThreadPreview threadPreview = loader.getController();
             threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack);
         }
+        System.out.println("wysoksoc"+threadsContainer.getPrefHeight());
     }
-    public void initilizeController(User user, UserDAO usersTable)
+    public void initializeController(User user, UserDAO usersTable)
     {
         this.user = user;
         this.usersTable = usersTable;

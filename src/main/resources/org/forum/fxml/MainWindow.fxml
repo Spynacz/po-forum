@@ -84,25 +84,21 @@
                   </GridPane>
                   <ScrollPane prefHeight="422.0" prefWidth="640.0">
                      <content>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="624.0">
-                           <children>
-                              <VBox fx:id="threadsContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
-                              <HBox prefHeight="30.0" prefWidth="624.0">
-                                 <padding>
-                                    <Insets bottom="3.0" top="3.0" />
-                                 </padding>
-                                 <children>
-                                    <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addThread" prefHeight="24.0" text="Dodaj wątek">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
+                        <VBox fx:id="threadsContainer" minHeight="392.0" minWidth="-Infinity" prefWidth="624.0" />
                      </content>
                   </ScrollPane>
+                  <HBox prefHeight="30.0" prefWidth="624.0">
+                     <padding>
+                        <Insets bottom="3.0" top="3.0" />
+                     </padding>
+                     <children>
+                        <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addThread" prefHeight="24.0" text="Dodaj wątek">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </content></Tab>

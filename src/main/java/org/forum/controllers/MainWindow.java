@@ -46,13 +46,13 @@ public class MainWindow{
     {
         user = null;
         usersTable = null;
-        threadsTable = new ThreadDAOImpl();
-        userRankTable = new UserRankDAOImpl();
-        postTable = new PostDAOImpl();
-        threadService = new ThreadService(threadsTable, postTable);
-        postService = new PostService(postTable,threadsTable);
-        ranksTable = new RankDAOImpl();
-
+        threadsTable = null;
+        userRankTable = null;
+        postTable = null;
+        ranksTable = null;
+        postService = null;
+        threadService = null;
+        userService = null;
 
     }
 
@@ -150,12 +150,19 @@ public class MainWindow{
         usersTab.initializeController(user,userService,ranksTable,userRankTable,this::userCallBack);
         tabsContainer.getTabs().add(tab);
     }
-    public void initializeController(User user, UserDAO usersTable)
+    public void initializeController(User user, UserDAO usersTable, ThreadDAO threadsTable, UserRankDAO userRankTable, PostDAO postTable, RankDAO ranksTable, PostService postService, ThreadService threadService, UserService userService)
     {
         this.user = user;
         this.usersTable = usersTable;
         login.setText(user.getName());
-        userService = new UserService(usersTable,ranksTable,userRankTable,postTable);
+        this.usersTable = usersTable;
+        this.threadsTable = threadsTable;
+        this.userRankTable = userRankTable;
+        this.postTable = postTable;
+        this.ranksTable = ranksTable;
+        this.postService = postService;
+        this.threadService = threadService;
+        this.userService = userService;
 
         try {
             List<String> ranks = userRankTable.getByUser(user.getId());

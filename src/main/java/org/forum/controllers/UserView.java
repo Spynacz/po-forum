@@ -98,6 +98,7 @@ public class UserView {
     catch (Exception e)
     {
         userService.addRank(user.getName(),addingRank.getText());
+        dataBaseUpdated.invoked(user);
     }
     }
 
@@ -106,6 +107,7 @@ public class UserView {
         try
         {
             userService.removeUser(user.getName());
+            dataBaseUpdated.invoked(user);
         }
         catch (Exception e)
         {

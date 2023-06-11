@@ -129,7 +129,7 @@ public class ThreadPreview {
         }
         List<String> ranks = null;
         try {
-            ranks = rankTable.getByUser(user.getId());
+            ranks = rankTable.getByUser(logedUser.getId());
             rankField.setText(Helpers.ListToString(ranks));
         }
         catch (RuntimeException e)

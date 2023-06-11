@@ -109,6 +109,13 @@ public class PostTemplate {
             deleteButton.setVisible(true);
             deleteButton.setManaged(true);
         }
+        else
+        {
+            editButton.setVisible(false);
+            editButton.setManaged(false);
+            deleteButton.setVisible(false);
+            deleteButton.setManaged(false);
+        }
 
     }
 
@@ -141,7 +148,7 @@ public class PostTemplate {
         statusChanged.invoked(post);
 
     }
-    public void initializeController(Post post, boolean isBeingCreated, User logedUser,UserDAO userTable, PostService postService, UserRankDAO rankTable,UserService userService, CallBack statusChanged)
+    public void initializeController(Post post, boolean isBeingCreated,User logedUser,UserRankDAO userRankTable, UserDAO userTable, PostService postService, UserRankDAO rankTable,UserService userService, CallBack statusChanged)
     {
         saveButton.setVisible(false);
         saveButton.setManaged(false);
@@ -159,14 +166,13 @@ public class PostTemplate {
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
         autorField.setText(user.getName());
         dateField.setText((new Date(post.getTimestamp())).toString());
         try
         {
-            ranks = userRankTable.getByUser(user.getId());
+            ranks = userRankTable.getByUser(logedUser.getId());
             rankField.setText(Helpers.ListToString(ranks));
         }
         catch (RuntimeException e)

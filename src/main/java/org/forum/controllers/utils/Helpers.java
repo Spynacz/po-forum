@@ -24,11 +24,12 @@ public class Helpers {
     }
     public static boolean isAdmin(User logedUser, List<String> ranks)
     {
-        return ranks != null && (ranks.stream().filter(st -> "admin".equals(st)).findAny().orElse(null) != null);
+
+        return (ranks != null && (ranks.stream().filter(st -> "admin".equals(st)).findAny().orElse(null) != null));
     }
     public static boolean hasAccesToChangeStandard(User logedUser,User owningUser, List<String> ranks)
     {
-        return (owningUser.getId() != logedUser.getId() || isAdmin(logedUser,ranks));
+        return (owningUser.getId() == logedUser.getId() || isAdmin(logedUser,ranks));
     }
     public static void  showErrorWinowAndExitAplication()
     {

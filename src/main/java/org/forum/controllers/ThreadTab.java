@@ -58,9 +58,6 @@ public class ThreadTab {
     private Button editButton;
 
     @FXML
-    private Button editButton1;
-
-    @FXML
     private Label login;
 
     @FXML
@@ -101,7 +98,7 @@ public class ThreadTab {
             VBox v = loader.load();
             postContainer.getChildren().add(v);
             PostTemplate postTemplate = loader.getController();
-            postTemplate.initializeController(post,true,logedUser,userTable,postService,userRankTable,userService, this::postChangeCallBack);
+            postTemplate.initializeController(post,true,logedUser,userRankTable,userTable,postService,userRankTable,userService, this::postChangeCallBack);
         }
         catch (Exception e)
         {
@@ -132,6 +129,7 @@ public class ThreadTab {
                 isBeingCreated = false;
             }
             setInViewMode();
+            currentTabLabel.setText(forumThread.getTitle());
             statusChanged.invoked(forumThread);
         }
         catch (Exception e)
@@ -143,8 +141,6 @@ public class ThreadTab {
     {
 
         topicField.setEditable(true);
-        autorField.setVisible(false);
-        autorField.setManaged(false);
         saveButton.setVisible(true);
         saveButton.setManaged(true);
         editButton.setVisible(false);
@@ -153,8 +149,6 @@ public class ThreadTab {
     private void setInViewMode()
     {
         topicField.setEditable(false);
-        autorField.setVisible(true);
-        autorField.setManaged(true);
         saveButton.setVisible(false);
         saveButton.setManaged(false);
         editButton.setVisible(true);
@@ -173,14 +167,14 @@ public class ThreadTab {
     }
     private void fillInpostContainer() throws IOException {
         postContainer.getChildren().clear();
-        List<Post> list = postsTable.getAll();
+        List<Post> list = postsTable.getByThread(forumThread.getId());
         for(Post post : list)
         {
             FXMLLoader loader = Main.loadFXML("fxml/PostTemplate");
             VBox v = loader.load();
             postContainer.getChildren().add(v);
             PostTemplate postTemplate = loader.getController();
-            postTemplate.initializeController(post,false,logedUser,userTable,postService,userRankTable,userService,this::postChangeCallBack);
+            postTemplate.initializeController(post,false,logedUser,userRankTable,userTable,postService,userRankTable,userService,this::postChangeCallBack);
         }
     }
 
@@ -239,8 +233,6 @@ public class ThreadTab {
         }
         if(!Helpers.hasAccesToChangeStandard(logedUser,user,ranks))
         {
-            autorField.setVisible(false);
-            autorField.setManaged(false);
             editButton.setVisible(false);
             editButton.setManaged(false);
         }

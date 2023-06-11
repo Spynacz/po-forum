@@ -145,9 +145,6 @@ public class ThreadPreview {
         }
     }
 
-    public ThreadTab getTheirsTab() {
-        return theirsTab;
-    }
 
     public void setTheirsTab(ThreadTab theirsTab) {
         this.theirsTab = theirsTab;

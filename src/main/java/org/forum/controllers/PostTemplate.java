@@ -17,6 +17,7 @@ import org.forum.dao.UserDAO;
 import org.forum.dao.UserRankDAO;
 import org.forum.services.PostService;
 import org.forum.services.ThreadService;
+import org.forum.services.UserService;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ public class PostTemplate {
     private User logedUser;
     private UserDAO userTable;
     private PostService postService;
+    private UserService userService;
     private UserRankDAO userRankTable;
     private CallBack statusChanged;
     private boolean isBeingCreated;
@@ -38,6 +40,7 @@ public class PostTemplate {
         statusChanged = null;
         post = null;
         isBeingCreated = false;
+        userService = null;
     }
     @FXML
     private Label autorField;
@@ -65,12 +68,12 @@ public class PostTemplate {
     void deletePost(MouseEvent event) {
         try {
             postService.removePost(post.getId());
+            userService.updateUserPostCount(logedUser.getName());
             statusChanged.invoked(post);
 
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
     }
@@ -121,6 +124,7 @@ public class PostTemplate {
             {
                 post.setCurrentTime();
                 postService.createPost(post);
+                userService.updateUserPostCount(logedUser.getName());
                 isBeingCreated = false;
             }
             setInViewModel();
@@ -137,7 +141,7 @@ public class PostTemplate {
         statusChanged.invoked(post);
 
     }
-    public void initializeController(Post post, boolean isBeingCreated, User logedUser,UserDAO userTable, PostService postService, UserRankDAO rankTable, CallBack statusChanged)
+    public void initializeController(Post post, boolean isBeingCreated, User logedUser,UserDAO userTable, PostService postService, UserRankDAO rankTable,UserService userService, CallBack statusChanged)
     {
         saveButton.setVisible(false);
         saveButton.setManaged(false);
@@ -148,6 +152,7 @@ public class PostTemplate {
         this.statusChanged = statusChanged;
         this.isBeingCreated = isBeingCreated;
         postField.setText(post.getBody());
+        this.userService = userService;
         User user = null;
         try {
             user = userTable.getById(post.getUserId());

@@ -19,6 +19,7 @@ import org.forum.dao.UserDAO;
 import org.forum.dao.UserRankDAO;
 import org.forum.services.PostService;
 import org.forum.services.ThreadService;
+import org.forum.services.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ThreadTab {
     private UserRankDAO userRankTable;
     private CallBack statusChanged;
     private boolean isBeingCreated;
-
+    private UserService userService;
     public ThreadTab()
     {
         forumThread = null;
@@ -44,6 +45,7 @@ public class ThreadTab {
         isBeingCreated = false;
         postsTable = null;
         threadService = null;
+        userService = null;
 
     }
     @FXML
@@ -99,7 +101,7 @@ public class ThreadTab {
             VBox v = loader.load();
             postContainer.getChildren().add(v);
             PostTemplate postTemplate = loader.getController();
-            postTemplate.initializeController(post,true,logedUser,userTable,postService,userRankTable,this::postChangeCallBack);
+            postTemplate.initializeController(post,true,logedUser,userTable,postService,userRankTable,userService, this::postChangeCallBack);
         }
         catch (Exception e)
         {
@@ -178,11 +180,11 @@ public class ThreadTab {
             VBox v = loader.load();
             postContainer.getChildren().add(v);
             PostTemplate postTemplate = loader.getController();
-            postTemplate.initializeController(post,false,logedUser,userTable,postService,userRankTable,this::postChangeCallBack);
+            postTemplate.initializeController(post,false,logedUser,userTable,postService,userRankTable,userService,this::postChangeCallBack);
         }
     }
 
-    public void initializeController(ForumThread forumThread, boolean isBeingCreated, User logedUser, UserDAO userTable, PostDAO postDAO, PostService postService, UserRankDAO userRankTable, ThreadService threadService, CallBack statusChanged)
+    public void initializeController(ForumThread forumThread, boolean isBeingCreated, User logedUser, UserDAO userTable, PostDAO postDAO, PostService postService, UserRankDAO userRankTable, ThreadService threadService, UserService userService, CallBack statusChanged)
     {
         setInViewMode();
         this.forumThread = forumThread;
@@ -191,6 +193,7 @@ public class ThreadTab {
         this.userRankTable = userRankTable;
         this.statusChanged = statusChanged;
         this.isBeingCreated = isBeingCreated;
+        this.userService = userService;
         currentTabLabel.setText(forumThread.getTitle());
         this.postsTable =  postDAO;
         this.threadService = threadService;

@@ -16,6 +16,7 @@ import org.forum.controllers.utils.Helpers;
 import org.forum.dao.*;
 import org.forum.services.PostService;
 import org.forum.services.ThreadService;
+import org.forum.services.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,8 +25,9 @@ public class MainWindow{
     private User user;
     private UserDAO usersTable;
     private ThreadDAO threadsTable;
-
+    private UserService userService;
     private UserRankDAO userRankTable;
+    private RankDAO ranksTable;
     private PostDAO postTable;
     private ThreadService threadService;
     private PostService postService;
@@ -49,6 +51,9 @@ public class MainWindow{
         postTable = new PostDAOImpl();
         threadService = new ThreadService(threadsTable, postTable);
         postService = new PostService(postTable,threadsTable);
+        ranksTable = new RankDAOImpl();
+
+
     }
 
     @FXML
@@ -60,7 +65,7 @@ public class MainWindow{
             FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
             Tab tab = loader.load();
             ThreadTab threadTab = loader.getController();
-            threadTab.initializeController(forumThread,true,user,usersTable,postTable,postService,userRankTable,threadService,this::threadCallBack);
+            threadTab.initializeController(forumThread,true,user,usersTable,postTable,postService,userRankTable,threadService,userService,this::threadCallBack);
             tabsContainer.getTabs().add(tab);
             tabsContainer.getSelectionModel().select(tab);
         }catch (Exception e)
@@ -99,6 +104,16 @@ public class MainWindow{
         }
 
     }
+    private void userCallBack(Object source)
+    {
+        try {
+            fillInThreadsContainer();
+        }catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
+
+    }
     private void threadPreviewCallBackOpenNew(Object source)
     {
         try {
@@ -107,7 +122,7 @@ public class MainWindow{
             FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
             Tab tab = loader.load();
             ThreadTab threadTab = loader.getController();;
-            threadTab.initializeController(forumThread,false,user,usersTable,postTable,postService,userRankTable,threadService,this::threadCallBack);
+            threadTab.initializeController(forumThread,false,user,usersTable,postTable,postService,userRankTable,threadService,userService, this::threadCallBack);
             tabsContainer.getTabs().add(tab);
         }catch (Exception e)
         {
@@ -127,20 +142,39 @@ public class MainWindow{
             threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack, this::threadPreviewCallBackOpenNew);
         }
     }
+    private void addUsersTab() throws IOException
+    {
+        FXMLLoader loader = Main.loadFXML("fxml/UsersTab");
+        Tab tab = loader.load();
+        UsersTab usersTab = loader.getController();
+        usersTab.initializeController(user,userService,ranksTable,userRankTable,this::userCallBack);
+        tabsContainer.getTabs().add(tab);
+    }
     public void initializeController(User user, UserDAO usersTable)
     {
         this.user = user;
         this.usersTable = usersTable;
         login.setText(user.getName());
+        userService = new UserService(usersTable,ranksTable,userRankTable,postTable);
 
         try {
             List<String> ranks = userRankTable.getByUser(user.getId());
             ranKfield.setText(Helpers.ListToString(ranks));
+            if(Helpers.isAdmin(user,ranks))
+            {
+                try {
+                    addUsersTab();
+                }catch (Exception e)
+                {
+                    Helpers.showErrorWinowAndExitAplication();
+                }
+            }
         }
         catch (RuntimeException e)
         {
             ranKfield.setText("");
         }
+
         try {
             fillInThreadsContainer();
         }catch (Exception e)

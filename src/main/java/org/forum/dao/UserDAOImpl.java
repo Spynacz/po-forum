@@ -95,6 +95,7 @@ public class UserDAOImpl implements UserDAO {
             psUpdateUser.setString(2, user.getPassword());
             psUpdateUser.setInt(3, user.getPostCount());
             psUpdateUser.setInt(4, user.getId());
+            psUpdateUser.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

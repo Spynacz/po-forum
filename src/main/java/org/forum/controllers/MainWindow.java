@@ -54,12 +54,18 @@ public class MainWindow{
     @FXML
     void addThread(MouseEvent event) {
         //TODO:improve this version of ading new threads
-        ForumThread forumThread = new ForumThread("Nowy wątek",user.getId());
-        threadService.createThread(forumThread);
+
         try {
-            fillInThreadsContainer();
+            ForumThread forumThread = new ForumThread("Nowy wątek",user.getId());
+            FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
+            Tab tab = loader.load();
+            ThreadTab threadTab = loader.getController();
+            threadTab.initializeController(forumThread,true,user,usersTable,postTable,postService,userRankTable,threadService,this::threadCallBack);
+            tabsContainer.getTabs().add(tab);
+            tabsContainer.getSelectionModel().select(tab);
         }catch (Exception e)
         {
+            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
     }
@@ -101,11 +107,10 @@ public class MainWindow{
             FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
             Tab tab = loader.load();
             ThreadTab threadTab = loader.getController();;
-            threadTab.initializeController(forumThread,false,user,usersTable,postService,userRankTable,this::threadCallBack);
+            threadTab.initializeController(forumThread,false,user,usersTable,postTable,postService,userRankTable,threadService,this::threadCallBack);
             tabsContainer.getTabs().add(tab);
         }catch (Exception e)
         {
-            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
 
@@ -121,7 +126,6 @@ public class MainWindow{
             ThreadPreview threadPreview = loader.getController();
             threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack, this::threadPreviewCallBackOpenNew);
         }
-        System.out.println("wysoksoc"+threadsContainer.getPrefHeight());
     }
     public void initializeController(User user, UserDAO usersTable)
     {
@@ -141,7 +145,6 @@ public class MainWindow{
             fillInThreadsContainer();
         }catch (Exception e)
         {
-            System.out.println("złąpano"+e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
 

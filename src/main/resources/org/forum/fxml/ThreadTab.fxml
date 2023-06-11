@@ -5,121 +5,117 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadTab">
-   <tabs>
-      <Tab text="Nazwa wąttku">
-         <content>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+<Tab fx:id="currentTab" text="Nazwa wąttku" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadTab">
+   <content>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox prefHeight="30.0" prefWidth="624.0">
+               <padding>
+                  <Insets bottom="3.0" top="3.0" />
+               </padding>
                <children>
-                  <HBox prefHeight="30.0" prefWidth="624.0">
+                  <Button fx:id="editButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#editThread" prefHeight="24.0" text="Edytuj wątek">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="saveButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#saveThread" prefHeight="24.0" text="Zapisz">
+                     <HBox.margin>
+                        <Insets bottom="3.0" right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets right="3.0" />
+               </VBox.margin>
+            </HBox>
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="250.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <padding>
-                        <Insets bottom="3.0" top="3.0" />
+                        <Insets bottom="2.0" left="5.0" top="5.0" />
                      </padding>
                      <children>
-                        <Button fx:id="editButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#editThread" prefHeight="24.0" text="Edytuj wątek">
+                        <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="Temat:">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#freezeThread" prefHeight="24.0" text="Zamróź wątek">
+                        </Label>
+                        <TextField fx:id="topicField" maxHeight="23.0" minHeight="23.0" text="Nazwa tematu">
                            <HBox.margin>
-                              <Insets bottom="3.0" right="5.0" />
-                           </HBox.margin></Button>
-                        <Button fx:id="saveButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#saveThread" prefHeight="24.0" text="Zapisz">
-                           <HBox.margin>
-                              <Insets bottom="3.0" right="5.0" />
+                              <Insets right="5.0" />
                            </HBox.margin>
-                        </Button>
+                        </TextField>
+                        <Label text="utworzony przez: " />
+                        <Label fx:id="autorField" text="authorField">
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="rankField" text="rankField" textFill="#b3d10a" />
                      </children>
-                     <VBox.margin>
-                        <Insets right="3.0" />
-                     </VBox.margin>
+                     <GridPane.margin>
+                        <Insets left="3.0" />
+                     </GridPane.margin>
                   </HBox>
-                  <GridPane>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="250.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="Zalogowano:">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="login" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="NazwaUżytkownika">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Label>
+                        <Label fx:id="rankFieldLoged" text="rankField" textFill="#b3d10a" />
+                     </children>
+                     <padding>
+                        <Insets bottom="2.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </GridPane>
+            <ScrollPane prefHeight="392.0" prefWidth="640.0">
+               <content>
+                  <VBox fx:id="postContainer" minHeight="392.0" prefWidth="624.0">
+                     <children>
+                        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
+                        <HBox prefHeight="30.0" prefWidth="624.0">
                            <padding>
-                              <Insets bottom="2.0" left="5.0" top="5.0" />
+                              <Insets bottom="3.0" top="3.0" />
                            </padding>
                            <children>
-                              <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="Temat:">
+                              <Button fx:id="addPostButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj post">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
-                              </Label>
-                              <Label fx:id="topicField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="NazwaTematu">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label text="utworzony przez: " />
-                              <Label fx:id="autorField" text="authorField">
-                                 <HBox.margin>
-                                    <Insets right="2.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="rankField" text="rankField" textFill="#b3d10a" />
+                              </Button>
                            </children>
-                           <GridPane.margin>
-                              <Insets left="3.0" />
-                           </GridPane.margin>
-                        </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                           <children>
-                              <Label maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="Zalogowano:">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="login" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="23.0" text="NazwaUżytkownika" />
-                           </children>
-                           <padding>
-                              <Insets bottom="2.0" right="5.0" top="5.0" />
-                           </padding>
                         </HBox>
                      </children>
-                  </GridPane>
-                  <ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="640.0">
-                     <content>
-                        <VBox fx:id="ThreadBodyContainer" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="624.0">
-                           <children>
-                              <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
-                              <HBox prefHeight="30.0" prefWidth="624.0">
-                                 <padding>
-                                    <Insets bottom="3.0" top="3.0" />
-                                 </padding>
-                                 <children>
-                                    <Button fx:id="editButton1" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj post">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </content>
-                  </ScrollPane>
-               </children>
-               <padding>
-                  <Insets left="3.0" />
-               </padding>
-            </VBox>
-         </content>
-      </Tab>
-   </tabs>
-</TabPane>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+         <padding>
+            <Insets left="3.0" />
+         </padding>
+      </VBox>
+   </content>
+</Tab>

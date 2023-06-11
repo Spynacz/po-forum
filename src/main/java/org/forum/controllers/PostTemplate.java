@@ -83,7 +83,7 @@ public class PostTemplate {
     void savePost(MouseEvent event) {
 
     }
-    public void initializeController(Post post, boolean isBeingCreated, User logedUser, UserDAO userTable, PostService postService, UserRankDAO rankTable, CallBack statusChanged)
+    public void initializeController(Post post, boolean isBeingCreated, User logedUser,UserDAO userTable, PostService postService, UserRankDAO rankTable, CallBack statusChanged)
     {
         saveButton.setVisible(false);
         saveButton.setManaged(false);
@@ -100,6 +100,7 @@ public class PostTemplate {
         }
         catch (Exception e)
         {
+            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
         autorField.setText(user.getName());

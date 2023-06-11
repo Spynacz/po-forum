@@ -16,6 +16,13 @@ public class Helpers {
         }
         return val;
     }
+    public static boolean hasAccesToChangeStandard(User logedUser,int owningUserID, List<String> ranks)
+    {
+        User user = new User();
+        user.setId(owningUserID);
+        return  hasAccesToChangeStandard(logedUser,user,ranks);
+    }
+
     public static boolean hasAccesToChangeStandard(User logedUser,User owningUser, List<String> ranks)
     {
         return (owningUser.getId() != logedUser.getId() || (ranks != null && (ranks.stream().filter(st -> "admin".equals(st)).findAny().orElse(null) != null)));

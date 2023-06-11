@@ -78,12 +78,21 @@ public class ThreadTab {
     @FXML
     private Button addPostButton;
 
+
+    @FXML
+    private Button cancelButton;
+
+
     @FXML
     void addPost(MouseEvent event) {
         forumThread.setTitle(topicField.getText());
         try {
-            postService.createPost(new Post("",logedUser.getId(),forumThread.getId()));
-            fillInpostContainer();
+            Post post = new Post("",logedUser.getId(),forumThread.getId());
+            FXMLLoader loader = Main.loadFXML("fxml/PostTemplate");
+            VBox v = loader.load();
+            postContainer.getChildren().add(v);
+            PostTemplate postTemplate = loader.getController();
+            postTemplate.initializeController(post,true,logedUser,userTable,postService,userRankTable,this::postChangeCallBack);
         }
         catch (Exception e)
         {
@@ -143,7 +152,14 @@ public class ThreadTab {
     }
     private void postChangeCallBack(Object source)
     {
-
+        try
+        {
+            fillInpostContainer();
+        }
+        catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
     }
     private void fillInpostContainer() throws IOException {
         postContainer.getChildren().clear();
@@ -217,13 +233,13 @@ public class ThreadTab {
             editButton.setVisible(false);
             editButton.setManaged(false);
         }
+
         try
         {
             fillInpostContainer();
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
     }

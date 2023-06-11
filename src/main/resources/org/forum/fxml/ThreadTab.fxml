@@ -91,27 +91,27 @@
                   </HBox>
                </children>
             </GridPane>
-            <ScrollPane prefHeight="392.0" prefWidth="640.0">
+            <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="640.0">
                <content>
                   <VBox fx:id="postContainer" minHeight="392.0" prefWidth="624.0">
                      <children>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
-                        <HBox prefHeight="30.0" prefWidth="624.0">
-                           <padding>
-                              <Insets bottom="3.0" top="3.0" />
-                           </padding>
-                           <children>
-                              <Button fx:id="addPostButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj post">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
+            <HBox prefHeight="30.0" prefWidth="624.0">
+               <padding>
+                  <Insets bottom="3.0" top="3.0" />
+               </padding>
+               <children>
+                  <Button fx:id="addPostButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addPost" prefHeight="24.0" text="Dodaj post">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets left="3.0" />

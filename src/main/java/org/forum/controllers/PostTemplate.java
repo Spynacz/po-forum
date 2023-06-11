@@ -29,6 +29,7 @@ public class PostTemplate {
     private UserRankDAO userRankTable;
     private CallBack statusChanged;
     private boolean isBeingCreated;
+    List<String> ranks = null;
     public PostTemplate()
     {
         logedUser = null;
@@ -40,7 +41,8 @@ public class PostTemplate {
     }
     @FXML
     private Label autorField;
-
+    @FXML
+    private Button cancelButton;
     @FXML
     private Label dateField;
 
@@ -61,26 +63,77 @@ public class PostTemplate {
 
     @FXML
     void deletePost(MouseEvent event) {
+        try {
+            postService.removePost(post.getId());
+            statusChanged.invoked(post);
 
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            Helpers.showErrorWinowAndExitAplication();
+        }
     }
 
     @FXML
     void editPost(MouseEvent event) {
-
+        setInEditMode();
     }
     private void setInEditMode()
     {
         postField.setEditable(true);
         saveButton.setVisible(true);
         saveButton.setManaged(true);
+        cancelButton.setVisible(true);
+        cancelButton.setManaged(true);
         editButton.setVisible(false);
         editButton.setManaged(false);
         deleteButton.setVisible(false);
         deleteButton.setManaged(false);
+
+    }
+    private void setInViewModel()
+    {
+        postField.setEditable(false);
+        saveButton.setVisible(false);
+        saveButton.setManaged(false);
+        cancelButton.setVisible(false);
+        cancelButton.setManaged(false);
+        if(Helpers.hasAccesToChangeStandard(logedUser,post.getUserId(),ranks))
+        {
+            editButton.setVisible(true);
+            editButton.setManaged(true);
+            deleteButton.setVisible(true);
+            deleteButton.setManaged(true);
+        }
+
     }
 
     @FXML
     void savePost(MouseEvent event) {
+        post.setBody(postField.getText());
+        try {
+            if(!isBeingCreated)
+            {
+                postService.editPost(post);
+            }
+            else
+            {
+                postService.createPost(post);
+                isBeingCreated = false;
+            }
+            setInViewModel();
+            statusChanged.invoked(post);
+        }
+        catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
+    }
+    @FXML
+    void cancelAddingPost(MouseEvent event) {
+        isBeingCreated = false;
+        statusChanged.invoked(post);
 
     }
     public void initializeController(Post post, boolean isBeingCreated, User logedUser,UserDAO userTable, PostService postService, UserRankDAO rankTable, CallBack statusChanged)
@@ -105,12 +158,6 @@ public class PostTemplate {
         }
         autorField.setText(user.getName());
         dateField.setText((new Date(post.getTimestamp())).toString());
-        if(isBeingCreated)
-        {
-            setInEditMode();
-        }
-
-        List<String> ranks = null;
         try
         {
             ranks = userRankTable.getByUser(user.getId());
@@ -120,10 +167,13 @@ public class PostTemplate {
         {
             rankField.setText("");
         }
-        if(!Helpers.hasAccesToChangeStandard(logedUser,user,ranks))
+        if(isBeingCreated)
         {
-            deleteButton.setVisible(false);
-            editButton.setVisible(false);
+            setInEditMode();
+        }
+        else
+        {
+            setInViewModel();
         }
     }
 

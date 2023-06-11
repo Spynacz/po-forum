@@ -22,6 +22,8 @@ public class ThreadPreview {
     private ThreadService threadService;
     private UserRankDAO userRankTable;
     private CallBack statusChanged;
+    CallBack openThread;
+    private ThreadTab theirsTab;
     public ThreadPreview()
     {
         thread = null;
@@ -30,6 +32,7 @@ public class ThreadPreview {
         postTable = null;
         threadService = null;
         userRankTable =null;
+        setTheirsTab(null);
     }
     @FXML
     private Label autorField;
@@ -58,7 +61,7 @@ public class ThreadPreview {
     void deleteThread(MouseEvent event) {
         try{
 
-        threadService.removeThread(thread.getId());
+        threadService.removeThread(getThread().getId());
         statusChanged.invoked(this);
 
         }
@@ -70,8 +73,8 @@ public class ThreadPreview {
     @FXML
     void freezeThread(MouseEvent event) {
         try {
-            thread.setClosed(true);
-            threadTable.update(thread);
+            getThread().setClosed(true);
+            threadTable.update(getThread());
             statusChanged.invoked(this);
         } catch (RuntimeException e) {
             //ToDO: error handling
@@ -80,22 +83,27 @@ public class ThreadPreview {
         @FXML
         void unFreezeThread(MouseEvent event) {
             try {
-                thread.setClosed(false);
-                threadTable.update(thread);
+                getThread().setClosed(false);
+                threadTable.update(getThread());
                 statusChanged.invoked(this);
             } catch (RuntimeException e) {
                 //ToDO: error handling
             }
         }
+    @FXML
+    void openThread(MouseEvent event) {
+        openThread.invoked(this);
+    }
 
 
-    public void initilizeController(User logedUser, ForumThread thread, UserDAO userTable, ThreadDAO threadTable, PostDAO postTable, UserRankDAO rankTable, ThreadService threadService, CallBack statusChanged)
+    public void initilizeController(User logedUser, ForumThread thread, UserDAO userTable, ThreadDAO threadTable, PostDAO postTable, UserRankDAO rankTable, ThreadService threadService, CallBack statusChanged, CallBack openThread)
     {
         this.thread = thread;
         this.userTable = userTable;
         this.threadTable =threadTable;
         this.postTable = postTable;
         this.userRankTable = rankTable;
+        this.openThread = openThread;
         User user = null;
         try {
             user = userTable.getById(thread.getUserId());
@@ -137,4 +145,15 @@ public class ThreadPreview {
         }
     }
 
+    public ThreadTab getTheirsTab() {
+        return theirsTab;
+    }
+
+    public void setTheirsTab(ThreadTab theirsTab) {
+        this.theirsTab = theirsTab;
+    }
+
+    public ForumThread getThread() {
+        return thread;
+    }
 }

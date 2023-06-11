@@ -3,6 +3,8 @@ package org.forum.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +14,7 @@ import org.forum.Main;
 import org.forum.User;
 import org.forum.controllers.utils.Helpers;
 import org.forum.dao.*;
+import org.forum.services.PostService;
 import org.forum.services.ThreadService;
 
 import java.io.IOException;
@@ -25,9 +28,11 @@ public class MainWindow{
     private UserRankDAO userRankTable;
     private PostDAO postTable;
     private ThreadService threadService;
+    private PostService postService;
     @FXML
     private VBox threadsContainer;
-
+    @FXML
+    private TabPane tabsContainer;
     @FXML
     private Label login;
     @FXML
@@ -43,6 +48,7 @@ public class MainWindow{
         userRankTable = new UserRankDAOImpl();
         postTable = new PostDAOImpl();
         threadService = new ThreadService(threadsTable, postTable);
+        postService = new PostService(postTable,threadsTable);
     }
 
     @FXML
@@ -73,7 +79,40 @@ public class MainWindow{
             fillInThreadsContainer();
         }catch (Exception e)
         {
-            System.out.println("złąpano"+e.getMessage());
+            Helpers.showErrorWinowAndExitAplication();
+        }
+
+    }
+    private void threadCallBack(Object source)
+    {
+        try {
+            fillInThreadsContainer();
+        }catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
+
+    }
+    private void threadPreviewCallBackOpenNew(Object source)
+    {
+        try {
+            ThreadPreview threadPreiew = (ThreadPreview) source;
+            System.out.println("AAAA1");
+            ForumThread forumThread = threadPreiew.getThread();
+            System.out.println("AAAA2");
+            FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
+            System.out.println("AAAA3");
+            Tab tab = loader.load();
+            System.out.println("AAAA4");
+            ThreadTab threadTab = loader.getController();;
+            System.out.println("AAAA5");
+            threadTab.initializeController(forumThread,false,user,usersTable,postService,userRankTable,this::threadCallBack);
+            System.out.println("AAAA6");
+            tabsContainer.getTabs().add(tab);
+            System.out.println("AAAA7");
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
 
@@ -87,7 +126,7 @@ public class MainWindow{
             VBox v = loader.load();
             threadsContainer.getChildren().add(v);
             ThreadPreview threadPreview = loader.getController();
-            threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack);
+            threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack, this::threadPreviewCallBackOpenNew);
         }
         System.out.println("wysoksoc"+threadsContainer.getPrefHeight());
     }

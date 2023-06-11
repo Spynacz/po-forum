@@ -11,8 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<Tab fx:id="currentTab" text="Nazwa wąttku" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadTab">
+<Tab fx:id="currentTab" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadTab">
    <content>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -118,4 +119,18 @@
          </padding>
       </VBox>
    </content>
+   <graphic>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label fx:id="currentTabLabel" text="Label">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin></Label>
+            <Button mnemonicParsing="false" onMouseClicked="#cancelTab" text="X">
+               <font>
+                  <Font size="5.0" />
+               </font></Button>
+         </children>
+      </HBox>
+   </graphic>
 </Tab>

@@ -27,7 +27,7 @@ public class ThreadTab {
     private ForumThread forumThread;
     private User logedUser;
     private UserDAO userTable;
-    ThreadService threadService;
+    private ThreadService threadService;
     private PostDAO postsTable;
     private PostService postService;
     private UserRankDAO userRankTable;
@@ -78,13 +78,20 @@ public class ThreadTab {
     @FXML
     private Button addPostButton;
 
+    @FXML
+    private Label currentTabLabel;
 
     @FXML
     private Button cancelButton;
 
+    @FXML
+    void cancelTab(MouseEvent event) {
+        currentTab.getTabPane().getTabs().remove(currentTab);
+    }
 
     @FXML
     void addPost(MouseEvent event) {
+
         forumThread.setTitle(topicField.getText());
         try {
             Post post = new Post("",logedUser.getId(),forumThread.getId());
@@ -184,7 +191,7 @@ public class ThreadTab {
         this.userRankTable = userRankTable;
         this.statusChanged = statusChanged;
         this.isBeingCreated = isBeingCreated;
-        currentTab.setText(forumThread.getTitle());
+        currentTabLabel.setText(forumThread.getTitle());
         this.postsTable =  postDAO;
         this.threadService = threadService;
         topicField.setText(forumThread.getTitle());

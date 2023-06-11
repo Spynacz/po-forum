@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadTab">
    <tabs>
       <Tab text="Nazwa wąttku">
          <content>
@@ -28,7 +28,15 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#freezeThread" prefHeight="24.0" text="Zamróź wątek" />
+                        <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#freezeThread" prefHeight="24.0" text="Zamróź wątek">
+                           <HBox.margin>
+                              <Insets bottom="3.0" right="5.0" />
+                           </HBox.margin></Button>
+                        <Button fx:id="saveButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#saveThread" prefHeight="24.0" text="Zapisz">
+                           <HBox.margin>
+                              <Insets bottom="3.0" right="5.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets right="3.0" />
@@ -64,7 +72,7 @@
                                     <Insets right="2.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a" />
+                              <Label fx:id="rankField" text="rankField" textFill="#b3d10a" />
                            </children>
                            <GridPane.margin>
                               <Insets left="3.0" />

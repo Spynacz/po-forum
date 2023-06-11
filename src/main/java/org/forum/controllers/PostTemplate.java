@@ -119,6 +119,7 @@ public class PostTemplate {
             }
             else
             {
+                post.setCurrentTime();
                 postService.createPost(post);
                 isBeingCreated = false;
             }

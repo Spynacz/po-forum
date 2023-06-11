@@ -13,10 +13,13 @@ public class Post {
     public Post(String body, int userId, int threadId) {
         this.body = body;
         this.userId = userId;
-        this.timestamp = System.currentTimeMillis();
+        setCurrentTime();
         this.threadId = threadId;
     }
-
+    public void setCurrentTime()
+    {
+        this.timestamp = System.currentTimeMillis();
+    }
     private int id;
     private String body;
     private long timestamp;

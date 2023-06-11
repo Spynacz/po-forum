@@ -116,6 +116,7 @@ public class ThreadTab {
             }
             else
             {
+                forumThread.setCurrentTime();
                 threadService.createThread(forumThread);
                 addPostButton.setManaged(true);
                 addPostButton.setVisible(true);

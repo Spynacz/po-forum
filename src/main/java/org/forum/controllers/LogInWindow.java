@@ -21,13 +21,17 @@ public class LogInWindow {
 
 
 
-    private UserDAO userTable;
+    private UserDAO usersTable;
+    private UserService userService;
     public LogInWindow() {
-    userTable = new UserDAOImpl();
+    usersTable = new UserDAOImpl();
     }
     @FXML
     private Label infoLabel;
-
+    @FXML
+    private Label nameTaken;
+    @FXML
+    private Label passwordRequired;
     @FXML
     private TextField logInText;
 
@@ -65,7 +69,7 @@ public class LogInWindow {
             userService.addUser(newUser);
             FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
             MainWindow mainWindow = fxmlLoader.getController();
-            mainWindow.initilizeController(newUser);
+            mainWindow.initilizeController(newUser,usersTable);
         } catch (NoPasswordException e) {
             nameTaken.setVisible(false);
             passwordRequired.setVisible(true);

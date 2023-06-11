@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.forum.Main;
 import org.forum.User;
-import org.forum.dao.ThreadDAO;
 import org.forum.dao.UserDAO;
 import org.forum.dao.UserDAOImpl;
 import org.forum.services.NoPasswordException;
@@ -48,7 +47,7 @@ public class LogInWindow {
             {
                 FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
                 MainWindow mainWindow = fxmlLoader.getController();
-                mainWindow.initilizeController(user,usersTable);
+                mainWindow.initializeController(user,usersTable);
             }
             else {
                 throw new RuntimeException("Invalid user or login");
@@ -69,7 +68,7 @@ public class LogInWindow {
             userService.addUser(newUser);
             FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
             MainWindow mainWindow = fxmlLoader.getController();
-            mainWindow.initilizeController(newUser,usersTable);
+            mainWindow.initializeController(newUser,usersTable);
         } catch (NoPasswordException e) {
             nameTaken.setVisible(false);
             passwordRequired.setVisible(true);

@@ -84,6 +84,7 @@ public class LogInWindow {
             userService.addUser(newUser);
             FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
             MainWindow mainWindow = fxmlLoader.getController();
+            newUser = usersTable.getByUsername(newUser.getName());
             mainWindow.initializeController(newUser,usersTable,threadsTable,userRankTable,postTable,ranksTable,postService,threadService,userService);
         } catch (NoPasswordException e) {
             nameTaken.setVisible(false);

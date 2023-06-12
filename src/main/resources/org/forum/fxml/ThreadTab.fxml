@@ -107,11 +107,7 @@
             </GridPane>
             <ScrollPane fx:id="scrollP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="640.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
                <content>
-                  <VBox fx:id="postContainer" minHeight="392.0" prefWidth="624.0">
-                     <children>
-                        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
-                     </children>
-                  </VBox>
+                  <VBox fx:id="postContainer" maxHeight="1.7976931348623157E308" minHeight="392.0" prefWidth="624.0" />
                </content>
             </ScrollPane>
             <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

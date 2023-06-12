@@ -91,7 +91,7 @@
                   </GridPane>
                   <ScrollPane fx:id="scrollP" prefHeight="422.0" prefWidth="640.0" AnchorPane.bottomAnchor="30.4" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.4">
                      <content>
-                        <VBox fx:id="threadsContainer" minHeight="392.0" minWidth="-Infinity" prefHeight="392.0" prefWidth="624.0" />
+                        <VBox fx:id="threadsContainer" maxHeight="1.7976931348623157E308" minHeight="392.0" prefWidth="624.0" />
                      </content>
                   </ScrollPane>
                   <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

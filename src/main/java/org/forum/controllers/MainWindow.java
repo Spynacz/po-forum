@@ -1,11 +1,13 @@
 package org.forum.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -19,7 +21,11 @@ import org.forum.services.ThreadService;
 import org.forum.services.UserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainWindow{
     private User user;
@@ -31,6 +37,9 @@ public class MainWindow{
     private PostDAO postTable;
     private ThreadService threadService;
     private PostService postService;
+    @FXML
+    private ComboBox<String> comboSearch;
+
     @FXML
     private VBox threadsContainer;
     @FXML
@@ -53,13 +62,10 @@ public class MainWindow{
         postService = null;
         threadService = null;
         userService = null;
-
     }
 
     @FXML
     void addThread(MouseEvent event) {
-        //TODO:improve this version of ading new threads
-
         try {
             ForumThread forumThread = new ForumThread("Nowy wątek",user.getId());
             FXMLLoader loader = Main.loadFXML("fxml/ThreadTab");
@@ -75,14 +81,50 @@ public class MainWindow{
         }
     }
 
+
     @FXML
-    void keyPressedCheckIfEnterPressed(KeyEvent event) {
-
+    void searchChange(ActionEvent event) {
+        if(comboSearch.getValue().equals("Tytół")||comboSearch.getValue().equals("Autor"))
+        {
+            searchField.setVisible(true);
+            searchField.setManaged(true);
+        } else if (comboSearch.getValue().equals("brak filtra"))
+        {
+            searchField.setVisible(false);
+            searchField.setManaged(false);
+        }
     }
+    private List<ForumThread> getThreads()
+    {
+        try
+        {
+            if(comboSearch.getValue().equals("brak filtra"))
+            {
+                return threadsTable.getAll();
+            }else if(comboSearch.getValue().equals("Tytół"))
+            {
+                return threadsTable.getByTitle(searchField.getText());
+            }else if(comboSearch.getValue().equals("Autor"))
+            {
+                return  threadsTable.getByUser(usersTable.getByUsername(searchField.getText()).getId());
 
+            }
+        }
+        catch (Exception e)
+        {
+            return  new ArrayList<>();
+        }
+        return  new ArrayList<>();
+    }
     @FXML
     void searchFor(MouseEvent event) {
-
+        try {
+            fillInThreadsContainer();
+        }
+        catch (Exception e)
+        {
+            Helpers.showErrorWinowAndExitAplication();
+        }
     }
     private void threadPreviewCallBack(Object source)
     {
@@ -132,7 +174,7 @@ public class MainWindow{
     }
     private void fillInThreadsContainer() throws IOException {
         threadsContainer.getChildren().clear();
-        List<ForumThread> list = threadsTable.getAll();
+        List<ForumThread> list = getThreads();
         for(ForumThread thread : list)
         {
             FXMLLoader loader = Main.loadFXML("fxml/ThreadPreview");
@@ -163,7 +205,15 @@ public class MainWindow{
         this.postService = postService;
         this.threadService = threadService;
         this.userService = userService;
-
+        List<String> l = new ArrayList<String>();
+        l.add("brak filtra");
+        l.add("Tytół");
+        l.add("Autor");
+        ObservableList list = FXCollections.observableList(l);
+        comboSearch.setItems(list);
+        comboSearch.getSelectionModel().select(0);
+        searchField.setVisible(false);
+        searchField.setManaged(false);
         try {
             List<String> ranks = userRankTable.getByUser(user.getId());
             ranKfield.setText(Helpers.ListToString(ranks));

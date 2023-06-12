@@ -43,6 +43,8 @@ public class MainWindow{
     @FXML
     private VBox threadsContainer;
     @FXML
+    private ScrollPane scrollP;
+    @FXML
     private TabPane tabsContainer;
     @FXML
     private Label login;
@@ -168,6 +170,7 @@ public class MainWindow{
             tabsContainer.getTabs().add(tab);
         }catch (Exception e)
         {
+            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
 
@@ -183,6 +186,7 @@ public class MainWindow{
             ThreadPreview threadPreview = loader.getController();
             threadPreview.initilizeController(user,thread,usersTable,threadsTable,postTable,userRankTable,threadService,this::threadPreviewCallBack, this::threadPreviewCallBackOpenNew);
         }
+
     }
     private void addUsersTab() throws IOException
     {
@@ -194,6 +198,10 @@ public class MainWindow{
     }
     public void initializeController(User user, UserDAO usersTable, ThreadDAO threadsTable, UserRankDAO userRankTable, PostDAO postTable, RankDAO ranksTable, PostService postService, ThreadService threadService, UserService userService)
     {
+
+        threadsContainer.minWidthProperty().bind(scrollP.widthProperty().subtract(25));
+
+        threadsContainer.minHeightProperty().bind(scrollP.heightProperty().subtract(2));
         this.user = user;
         this.usersTable = usersTable;
         login.setText(user.getName());
@@ -236,6 +244,7 @@ public class MainWindow{
             fillInThreadsContainer();
         }catch (Exception e)
         {
+            System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }
 

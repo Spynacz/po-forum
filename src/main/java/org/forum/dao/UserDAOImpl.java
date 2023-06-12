@@ -84,6 +84,7 @@ public class UserDAOImpl implements UserDAO {
             psRemoveUser.setInt(1, userID);
             psRemoveUser.executeUpdate();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -93,9 +94,10 @@ public class UserDAOImpl implements UserDAO {
              PreparedStatement psUpdateUser =
                      conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, pass_hash = ?, salt = ?, post_count = ? WHERE userID = ?")) {
             psUpdateUser.setString(1, user.getName());
-            psUpdateUser.setString(2, user.getPassword());
-            psUpdateUser.setInt(3, user.getPostCount());
-            psUpdateUser.setInt(4, user.getId());
+            psUpdateUser.setString(2, user.getPassHash());
+            psUpdateUser.setString(3, user.getSalt());
+            psUpdateUser.setInt(4, user.getPostCount());
+            psUpdateUser.setInt(5, user.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

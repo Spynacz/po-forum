@@ -86,7 +86,7 @@ public class MainWindow{
 
     @FXML
     void searchChange(ActionEvent event) {
-        if(comboSearch.getValue().equals("Tytół")||comboSearch.getValue().equals("Autor"))
+        if(comboSearch.getValue().equals("Tytuł")||comboSearch.getValue().equals("Autor"))
         {
             searchField.setVisible(true);
             searchField.setManaged(true);
@@ -103,7 +103,7 @@ public class MainWindow{
             if(comboSearch.getValue().equals("brak filtra"))
             {
                 return threadsTable.getAll();
-            }else if(comboSearch.getValue().equals("Tytół"))
+            }else if(comboSearch.getValue().equals("Tytuł"))
             {
                 return threadsTable.getByTitle(searchField.getText());
             }else if(comboSearch.getValue().equals("Autor"))
@@ -215,7 +215,7 @@ public class MainWindow{
         this.userService = userService;
         List<String> l = new ArrayList<String>();
         l.add("brak filtra");
-        l.add("Tytół");
+        l.add("Tytuł");
         l.add("Autor");
         ObservableList list = FXCollections.observableList(l);
         comboSearch.setItems(list);
@@ -231,6 +231,7 @@ public class MainWindow{
                     addUsersTab();
                 }catch (Exception e)
                 {
+                    System.out.println(e.getMessage());
                     Helpers.showErrorWinowAndExitAplication();
                 }
             }
@@ -244,6 +245,7 @@ public class MainWindow{
             fillInThreadsContainer();
         }catch (Exception e)
         {
+            System.out.println(e.getMessage());
             System.out.println(e.getMessage());
             Helpers.showErrorWinowAndExitAplication();
         }

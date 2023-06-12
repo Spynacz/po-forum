@@ -19,6 +19,7 @@ import org.forum.services.PostService;
 import org.forum.services.ThreadService;
 import org.forum.services.UserService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,6 +75,7 @@ public class PostTemplate {
         }
         catch (Exception e)
         {
+
             Helpers.showErrorWinowAndExitAplication();
         }
     }
@@ -150,6 +152,7 @@ public class PostTemplate {
     }
     public void initializeController(Post post, boolean isBeingCreated,User logedUser,UserRankDAO userRankTable, UserDAO userTable, PostService postService, UserRankDAO rankTable,UserService userService, CallBack statusChanged)
     {
+
         saveButton.setVisible(false);
         saveButton.setManaged(false);
         this.post = post;

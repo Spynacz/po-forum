@@ -80,10 +80,13 @@ public class ThreadTab {
 
     @FXML
     private Button cancelButton;
-
+    private void CancelTab()
+    {
+        currentTab.getTabPane().getTabs().remove(currentTab);
+    }
     @FXML
     void cancelTab(MouseEvent event) {
-        currentTab.getTabPane().getTabs().remove(currentTab);
+        CancelTab();
     }
 
     @FXML
@@ -117,6 +120,9 @@ public class ThreadTab {
             if(!isBeingCreated)
             {
                 threadService.editTitle(forumThread);
+                setInViewMode();
+                currentTabLabel.setText(forumThread.getTitle());
+                statusChanged.invoked(forumThread);
             }
             else
             {
@@ -125,10 +131,12 @@ public class ThreadTab {
                 addPostButton.setManaged(true);
                 addPostButton.setVisible(true);
                 isBeingCreated = false;
+                setInViewMode();
+                currentTabLabel.setText(forumThread.getTitle());
+                statusChanged.invoked(forumThread);
+                CancelTab();
             }
-            setInViewMode();
-            currentTabLabel.setText(forumThread.getTitle());
-            statusChanged.invoked(forumThread);
+
         }
         catch (Exception e)
         {
@@ -191,7 +199,8 @@ public class ThreadTab {
         currentTabLabel.setText(forumThread.getTitle());
         this.postsTable =  postDAO;
         this.threadService = threadService;
-        topicField.setText(forumThread.getTitle());
+        if(isBeingCreated)currentTabLabel.setText(forumThread.getTitle()+"*");
+        else currentTabLabel.setText(forumThread.getTitle());
         this.userTable = userTable;
         User user = null;
         if(isBeingCreated)

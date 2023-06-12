@@ -163,6 +163,7 @@ public class PostTemplate {
         User user = null;
         try {
             user = userTable.getById(post.getUserId());
+            ranks = userRankTable.getByUser(logedUser.getId());
         }
         catch (Exception e)
         {
@@ -172,8 +173,8 @@ public class PostTemplate {
         dateField.setText((new Date(post.getTimestamp())).toString());
         try
         {
-            ranks = userRankTable.getByUser(logedUser.getId());
-            rankField.setText(Helpers.ListToString(ranks));
+
+            rankField.setText(Helpers.ListToString(userRankTable.getByUser(user.getId())));
         }
         catch (RuntimeException e)
         {

@@ -1,5 +1,6 @@
 package org.forum.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -68,6 +69,8 @@ public class UsersTab {
         }
 
     }
+
+    @FXML
     public void initializeController(User logedUser, UserService userService, RankDAO ranksTable, UserRankDAO ranksUsersTable, CallBack dataBaseUpdated)
     {
         usersContainer.minWidthProperty().bind(scrollP.widthProperty().subtract(25));

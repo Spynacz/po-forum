@@ -105,8 +105,11 @@ public class ThreadPreview {
         this.userRankTable = rankTable;
         this.openThread = openThread;
         User user = null;
+        List<String> ranks = null;
         try {
+
             user = userTable.getById(thread.getUserId());
+            ranks = rankTable.getByUser(logedUser.getId());
         }
         catch (Exception e)
         {
@@ -127,10 +130,9 @@ public class ThreadPreview {
             unFreezeButton.setVisible(false);
             unFreezeButton.setManaged(false);
         }
-        List<String> ranks = null;
+
         try {
-            ranks = rankTable.getByUser(logedUser.getId());
-            rankField.setText(Helpers.ListToString(ranks));
+            rankField.setText(Helpers.ListToString(rankTable.getByUser(user.getId())));
         }
         catch (RuntimeException e)
         {

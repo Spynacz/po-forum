@@ -9,10 +9,15 @@ import java.util.List;
 public class Helpers {
     public static final String ListToString(List<String> list)
     {
-        String val  = list.get(0);
-        for(int i = 1; i < list.size();i++)
-        {
-            val += list.get(i);
+        String val = "";
+        if (list.size() > 0
+        ) {
+            val = list.get(0);
+            for(int i = 1; i < list.size();i++)
+            {
+                val += "," + list.get(i);
+            }
+
         }
         return val;
     }

@@ -15,7 +15,7 @@ public class UserDAOImpl implements UserDAO {
              PreparedStatement psGetAll = conn.prepareStatement("SELECT * FROM " + TABLE)) {
             try (ResultSet rs = psGetAll.executeQuery()) {
                 while (rs.next()) {
-                    allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count")));
+                    allUsers.add(new User(rs.getInt("userID"), rs.getString("username"), rs.getString("pass_hash"), rs.getString("salt"), rs.getInt("post_count")));
                 }
             }
         } catch (SQLException e) {
@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
             try (ResultSet rs = psGetUser.executeQuery()) {
                 if (!rs.isBeforeFirst())
                     throw new SQLDataException("User doesn't exist");
-                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
+                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("pass_hash"), rs.getString("salt"), rs.getInt("post_count"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
             try (ResultSet rs = psGetUser.executeQuery()) {
                 if (!rs.isBeforeFirst())
                     throw new SQLDataException("User doesn't exist");
-                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("password"), rs.getInt("post_count"));
+                ret = new User(rs.getInt("userID"), rs.getString("username"), rs.getString("pass_hash"), rs.getString("salt"), rs.getInt("post_count"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -64,10 +64,11 @@ public class UserDAOImpl implements UserDAO {
                     throw new SQLIntegrityConstraintViolationException("User already exists!");
                 } else {
                     try (PreparedStatement psInsertUser =
-                                 connection.prepareStatement("INSERT INTO user(username, password, post_count) VALUES(?, ?, ?)")) {
+                                 connection.prepareStatement("INSERT INTO user(username, pass_hash, salt, post_count) VALUES(?, ?, ?, ?)")) {
                         psInsertUser.setString(1, user.getName());
-                        psInsertUser.setString(2, user.getPassword());
-                        psInsertUser.setInt(3, 0);
+                        psInsertUser.setString(2, user.getPassHash());
+                        psInsertUser.setString(3, user.getSalt());
+                        psInsertUser.setInt(4, 0);
                         psInsertUser.executeUpdate();
                     }
                 }
@@ -90,12 +91,11 @@ public class UserDAOImpl implements UserDAO {
     public void update(User user) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement psUpdateUser =
-                     conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, password = ?, post_count = ? WHERE userID = ?")) {
+                     conn.prepareStatement("UPDATE " + TABLE + " SET username = ?, pass_hash = ?, salt = ?, post_count = ? WHERE userID = ?")) {
             psUpdateUser.setString(1, user.getName());
             psUpdateUser.setString(2, user.getPassword());
             psUpdateUser.setInt(3, user.getPostCount());
             psUpdateUser.setInt(4, user.getId());
-            psUpdateUser.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -8,10 +8,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.forum.Main;
 import org.forum.User;
-import org.forum.dao.*;
+import org.forum.dao.UserDAO;
+import org.forum.dao.UserDAOImpl;
 import org.forum.services.NoPasswordException;
-import org.forum.services.PostService;
-import org.forum.services.ThreadService;
 import org.forum.services.UserService;
 
 import java.io.IOException;
@@ -23,22 +22,8 @@ public class LogInWindow {
 
     private UserDAO usersTable;
     private UserService userService;
-    private ThreadDAO threadsTable;
-    private UserRankDAO userRankTable;
-    private RankDAO ranksTable;
-    private PostDAO postTable;
-    private ThreadService threadService;
-    private PostService postService;
-
     public LogInWindow() {
-        usersTable = new UserDAOImpl();
-        threadsTable = new ThreadDAOImpl();
-        userRankTable = new UserRankDAOImpl();
-        postTable = new PostDAOImpl();
-        ranksTable = new RankDAOImpl();
-        postService = new PostService(postTable,threadsTable);
-        threadService = new ThreadService(threadsTable, postTable);
-        userService = new UserService(usersTable,ranksTable,userRankTable,postTable);
+    usersTable = new UserDAOImpl();
     }
     @FXML
     private Label infoLabel;
@@ -49,7 +34,6 @@ public class LogInWindow {
     @FXML
     private TextField logInText;
 
-
     @FXML
     private PasswordField passwordText;
     @FXML
@@ -58,12 +42,11 @@ public class LogInWindow {
         try
         {
             User user = null;
-        user = usersTable.getByUsername(logInText.getText());
-            if(user != null && user.getPassword().equals(passwordText.getText()))
-            {
+            user = usersTable.getByUsername(logInText.getText());
+            if (user != null && userService.passwordCorrect(user, passwordText.getText())) {
                 FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
                 MainWindow mainWindow = fxmlLoader.getController();
-                mainWindow.initializeController(user,usersTable,threadsTable,userRankTable,postTable,ranksTable,postService,threadService,userService);
+                mainWindow.initializeController(user,usersTable);
             }
             else {
                 throw new RuntimeException("Invalid user or login");
@@ -79,19 +62,32 @@ public class LogInWindow {
 
     @FXML
     void register(ActionEvent event) throws IOException {
-        User newUser = new User(logInText.getText(), passwordText.getText());
-        try {
-            userService.addUser(newUser);
-            FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
-            MainWindow mainWindow = fxmlLoader.getController();
-            newUser = usersTable.getByUsername(newUser.getName());
-            mainWindow.initializeController(newUser,usersTable,threadsTable,userRankTable,postTable,ranksTable,postService,threadService,userService);
-        } catch (NoPasswordException e) {
+        if (passwordText.getText().isBlank()) {
             nameTaken.setVisible(false);
             passwordRequired.setVisible(true);
-        } catch (RuntimeException e) {
-            passwordRequired.setVisible(false);
-            nameTaken.setVisible(true);
+        } else {
+            SecureRandom random = new SecureRandom();
+            byte[] salt = new byte[16];
+            random.nextBytes(salt);
+            KeySpec spec = new PBEKeySpec(passwordText.getText().toCharArray(), salt, 65536, 128);
+            byte[] hash;
+            try {
+                SecretKeyFactory hasher = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+                hash = hasher.generateSecret(spec).getEncoded();
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                throw new RuntimeException(e);
+            }
+            Base64.Encoder encoder = Base64.getEncoder();
+            User newUser = new User(logInText.getText(), encoder.encodeToString(hash), encoder.encodeToString(salt));
+            try {
+                userService.addUser(newUser);
+                FXMLLoader fxmlLoader = Main.setRoot("fxml/MainWindow");
+                MainWindow mainWindow = fxmlLoader.getController();
+                mainWindow.initializeController(newUser, usersTable);
+            } catch (RuntimeException e) {
+                passwordRequired.setVisible(false);
+                nameTaken.setVisible(true);
+            }
         }
     }
 

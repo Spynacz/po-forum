@@ -6,9 +6,16 @@ import org.forum.dao.RankDAO;
 import org.forum.dao.UserDAO;
 import org.forum.dao.UserRankDAO;
 
-import java.sql.SQLDataException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 public class UserService {
     public UserService(final UserDAO userDAO, final RankDAO rankDAO, UserRankDAO userRankDAO, PostDAO postDAO) {
@@ -26,9 +33,6 @@ public class UserService {
     }
 
     public void addUser(User user) {
-        if (user.getPassword().isBlank())
-            throw new NoPasswordException("Password required");
-
         userDAO.insert(user);
     }
 
@@ -40,6 +44,20 @@ public class UserService {
 
         // delete all user's ranks
         userRankDAO.getByUser(id).forEach(r -> userRankDAO.delete(id, r));
+    }
+
+    public boolean passwordCorrect(User user, String password) {
+        byte[] salt = Base64.getDecoder().decode(user.getSalt());
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        byte[] hash;
+        try {
+            SecretKeyFactory hasher = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            hash = hasher.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+        String strHash = Base64.getEncoder().encodeToString(hash);
+        return strHash.equals(user.getPassHash());
     }
 
     public void addRank(String username, String rank) {

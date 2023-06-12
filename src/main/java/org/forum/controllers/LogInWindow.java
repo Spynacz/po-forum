@@ -49,6 +49,7 @@ public class LogInWindow {
     @FXML
     private TextField logInText;
 
+
     @FXML
     private PasswordField passwordText;
     @FXML

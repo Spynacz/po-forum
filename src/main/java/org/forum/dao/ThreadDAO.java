@@ -13,8 +13,6 @@ public interface ThreadDAO {
     ForumThread getById(int id);
     List<ForumThread> getByTitle(String title);
 
-    List<ForumThread> getByDate(long timestamp);
-
     List<ForumThread> getByUser(int userID);
 
     void insert(ForumThread thread);

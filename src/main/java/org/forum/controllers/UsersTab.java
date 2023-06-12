@@ -3,6 +3,7 @@ package org.forum.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import org.forum.Main;
@@ -35,7 +36,8 @@ public class UsersTab {
     }
     @FXML
     private Label login;
-
+    @FXML
+    private ScrollPane scrollP;
     @FXML
     private Label rankFieldLoged;
 
@@ -68,6 +70,9 @@ public class UsersTab {
     }
     public void initializeController(User logedUser, UserService userService, RankDAO ranksTable, UserRankDAO ranksUsersTable, CallBack dataBaseUpdated)
     {
+        usersContainer.minWidthProperty().bind(scrollP.widthProperty().subtract(25));
+
+        usersContainer.minHeightProperty().bind(scrollP.heightProperty().subtract(2));
         this.logedUser = logedUser;
         this.userService = userService;
         this.ranksTable = ranksTable;

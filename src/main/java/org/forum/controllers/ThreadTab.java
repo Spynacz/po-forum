@@ -2,10 +2,7 @@ package org.forum.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.forum.ForumThread;
@@ -56,7 +53,8 @@ public class ThreadTab {
 
     @FXML
     private Button editButton;
-
+    @FXML
+    private ScrollPane scrollP;
     @FXML
     private Label login;
 
@@ -181,6 +179,8 @@ public class ThreadTab {
     public void initializeController(ForumThread forumThread, boolean isBeingCreated, User logedUser, UserDAO userTable, PostDAO postDAO, PostService postService, UserRankDAO userRankTable, ThreadService threadService, UserService userService, CallBack statusChanged)
     {
         setInViewMode();
+        postContainer.minWidthProperty().bind(scrollP.widthProperty().subtract(25));
+        postContainer.minHeightProperty().bind(scrollP.heightProperty().subtract(2));
         this.forumThread = forumThread;
         this.logedUser = logedUser;
         this.postService = postService;

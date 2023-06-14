@@ -10,6 +10,10 @@ public interface ThreadDAO {
     String TABLE = "thread";
 
     List<ForumThread> getAll();
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     ForumThread getById(int id);
     List<ForumThread> getByTitle(String title);
 

@@ -57,6 +57,26 @@ public class ThreadDAOImpl implements ThreadDAO {
         return threads;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public List<ForumThread> getByDate(long timestamp) {
+        List<ForumThread> threads = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement psGetThreads =
+                     conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE date(date) = date(?)")) {
+            psGetThreads.setLong(1, timestamp);
+            try (ResultSet rs = psGetThreads.executeQuery()) {
+                while (rs.next())
+                    threads.add(new ForumThread(rs.getInt("threadID"), rs.getString("title"), rs.getLong("date"),
+                            rs.getInt("userID"), rs.getBoolean("closed")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return threads;
+    }
+>>>>>>> master
 
     @Override
     public List<ForumThread> getByUser(int userID) {

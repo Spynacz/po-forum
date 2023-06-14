@@ -13,7 +13,11 @@ public class Post {
     public Post(String body, int userId, int threadId) {
         this.body = body;
         this.userId = userId;
+<<<<<<< HEAD
         setCurrentTime();
+=======
+        this.timestamp = System.currentTimeMillis();
+>>>>>>> master
         this.threadId = threadId;
     }
     public void setCurrentTime()

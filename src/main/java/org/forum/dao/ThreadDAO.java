@@ -10,12 +10,12 @@ public interface ThreadDAO {
     String TABLE = "thread";
 
     List<ForumThread> getAll();
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
     ForumThread getById(int id);
-
     List<ForumThread> getByTitle(String title);
-
-    List<ForumThread> getByDate(long timestamp);
 
     List<ForumThread> getByUser(int userID);
 

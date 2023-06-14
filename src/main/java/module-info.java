@@ -12,4 +12,6 @@ module org.forum {
     exports org.forum.dao;
     exports org.forum.services;
     opens org.forum.services to javafx.fxml;
+    exports org.forum.controllers.utils;
+    opens org.forum.controllers.utils to javafx.fxml;
 }

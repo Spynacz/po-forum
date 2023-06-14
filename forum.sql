@@ -1,7 +1,8 @@
 CREATE TABLE user (
 	userID integer NOT NULL PRIMARY KEY,
 	username text NOT NULL UNIQUE,
-	password text NOT NULL,
+	pass_hash text NOT NULL,
+	salt text NOT NULL,
 	post_count integer NOT NULL
 );
 

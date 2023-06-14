@@ -40,7 +40,6 @@ public class ThreadDAOImpl implements ThreadDAO {
         }
         return thread;
     }
-
     @Override
     public List<ForumThread> getByTitle(String title) {
         List<ForumThread> threads = new ArrayList<>();
@@ -58,6 +57,8 @@ public class ThreadDAOImpl implements ThreadDAO {
         return threads;
     }
 
+<<<<<<< HEAD
+=======
     @Override
     public List<ForumThread> getByDate(long timestamp) {
         List<ForumThread> threads = new ArrayList<>();
@@ -75,6 +76,7 @@ public class ThreadDAOImpl implements ThreadDAO {
         }
         return threads;
     }
+>>>>>>> master
 
     @Override
     public List<ForumThread> getByUser(int userID) {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="200.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.UserView">
+    <children>
+        <Label fx:id="userName" text="userName">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="551.0" minWidth="10.0" prefWidth="491.79998779296875" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Liczba postów:" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets right="2.0" />
+                    </GridPane.margin></Label>
+                <Label fx:id="postCount" text="postCount" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </Label>
+            </children>
+        </GridPane>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="551.0" minWidth="10.0" prefWidth="491.79998779296875" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+                <Label fx:id="rankField" text="rankField" textFill="#b3d10a" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="System Bold" size="10.0" />
+                    </font>
+                </Label>
+            <Label text="Rangi:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+        <HBox prefHeight="30.0" prefWidth="624.0">
+            <padding>
+                <Insets top="3.0" />
+            </padding>
+            <children>
+                <Button fx:id="deleteButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteUser" prefHeight="24.0" text="Usuń użytkownika">
+                    <HBox.margin>
+                        <Insets bottom="3.0" right="5.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="addRangeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addRank" prefHeight="24.0">
+                    <HBox.margin>
+                        <Insets bottom="3.0" right="5.0" />
+                    </HBox.margin>
+               <graphic>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <TextField fx:id="addingRank" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Dodaj range" />
+                     </children>
+                  </HBox>
+               </graphic></Button>
+                <Button fx:id="deleteRangeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteRank" prefHeight="24.0">
+                    <HBox.margin>
+                        <Insets bottom="3.0" right="5.0" />
+                    </HBox.margin>
+               <graphic>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <ComboBox fx:id="removingRank" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="100.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                        <Label text="Usuń range" />
+                     </children>
+                  </HBox>
+               </graphic>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets left="3.0" right="3.0" top="3.0" />
+    </padding>
+</VBox>

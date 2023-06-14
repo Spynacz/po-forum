@@ -38,7 +38,7 @@
                <GridPane.margin>
                   <Insets right="2.0" />
                </GridPane.margin></Label>
-            <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
+            <Label fx:id="rankField" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets right="2.0" />
                </GridPane.margin>
@@ -71,16 +71,22 @@
             <Insets top="3.0" />
          </padding>
          <children>
-            <Button fx:id="deleteButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#editPost" prefHeight="24.0" text="Edytuj post">
+            <Button fx:id="editButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#editPost" prefHeight="24.0" text="Edytuj post">
                <HBox.margin>
                   <Insets bottom="3.0" right="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="deleteButton1" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteThread" prefHeight="24.0" text="Usuń post">
+            <Button fx:id="saveButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#savePost" prefHeight="24.0" text="Zapisz zmiany">
                <HBox.margin>
                   <Insets bottom="3.0" right="5.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="deleteButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deletePost" prefHeight="24.0" text="Usuń post">
+               <HBox.margin>
+                  <Insets bottom="3.0" right="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="cancelButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#cancelAddingPost" prefHeight="24.0" text="Anuluj" />
          </children>
       </HBox>
    </children>

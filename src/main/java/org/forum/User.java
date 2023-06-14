@@ -13,17 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    public User(int id, String name, String password, int postCount) {
+
+    public User(int id, String name, String passHash, String salt, int postCount) {
         this.id = id;
         this.name = name;
-        this.password = password;
+        this.passHash = passHash;
+        this.salt = salt;
         this.postCount = postCount;
         this.ranks = new ArrayList<>();
     }
 
-    public User(String name, String password) {
+    public User(String name, String passHash, String salt) {
         this.name = name;
-        this.password = password;
+        this.passHash = passHash;
+        this.salt = salt;
         this.postCount = 0;
         this.ranks = new ArrayList<>();
     }
@@ -35,7 +38,8 @@ public class User {
 
     private int id;
     private String name;
-    private String password;
+    private String passHash;
+    private String salt;
     private int postCount;
     private List<String> ranks;
 }

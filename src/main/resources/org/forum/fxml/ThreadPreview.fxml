@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="200.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadPreview">
+<VBox maxHeight="200.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openThread" prefWidth="624.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.forum.controllers.ThreadPreview">
    <children>
-      <Label text="Nazwa watku">
+      <Label fx:id="threadTitle" text="Nazwa watku">
          <font>
             <Font size="18.0" />
          </font>
@@ -25,14 +25,6 @@
          <rowConstraints>
             <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
          </rowConstraints>
-         <children>
-            <Label text="Tytuł">
-               <GridPane.margin>
-                  <Insets right="2.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="date1" text="titleField" GridPane.columnIndex="1" />
-         </children>
       </GridPane>
       <GridPane>
         <columnConstraints>
@@ -40,15 +32,19 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="551.0" minWidth="10.0" prefWidth="491.79998779296875" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+          <RowConstraints />
+            <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="dataField" text="dataField">
+            <Label fx:id="date" text="data:" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="2.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="dataField" text="dataField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
                </GridPane.margin>
             </Label>
-            <Label fx:id="date" text="data" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <GridPane>
@@ -70,14 +66,14 @@
                <GridPane.margin>
                   <Insets right="2.0" />
                </GridPane.margin></Label>
-            <Label fx:id="ranKfield" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
+            <Label fx:id="rankField" text="rankField" textFill="#b3d10a" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="10.0" />
                </font>
             </Label>
          </children>
       </GridPane>
-      <HBox prefHeight="30.0" prefWidth="624.0">
+      <HBox fx:id="menu" prefHeight="30.0" prefWidth="624.0">
          <padding>
             <Insets top="3.0" />
          </padding>
@@ -87,7 +83,15 @@
                   <Insets bottom="3.0" right="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#deleteThread" prefHeight="24.0" text="Zamróź wątek" />
+            <Button fx:id="freezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#freezeThread" prefHeight="24.0" text="Zamróź wątek">
+               <HBox.margin>
+                  <Insets bottom="3.0" right="5.0" />
+               </HBox.margin></Button>
+            <Button fx:id="unFreezeButton" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#unFreezeThread" prefHeight="24.0" text="Odmróź wątek">
+               <HBox.margin>
+                  <Insets bottom="3.0" right="5.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </children>

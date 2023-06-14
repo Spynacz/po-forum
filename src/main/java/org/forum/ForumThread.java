@@ -10,11 +10,20 @@ import lombok.Setter;
 public class ForumThread {
     public ForumThread(String title, int userID) {
         this.title = title;
-        this.timestamp = System.currentTimeMillis();
+<<<<<<< HEAD
+        setCurrentTime();
         this.userId = userID;
         this.closed = false;
     }
-
+    public void setCurrentTime()
+    {
+        this.timestamp = System.currentTimeMillis();
+=======
+        this.timestamp = System.currentTimeMillis();
+        this.userId = userID;
+        this.closed = false;
+>>>>>>> master
+    }
     private int id;
     private String title;
     private long timestamp;
